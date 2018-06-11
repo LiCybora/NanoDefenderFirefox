@@ -15,5 +15,5 @@ var a = {};
  * Whether the extension is loaded in debug mode.
  * @const {boolean}
  */
-a.debugMode = true;
+// a.debugMode = true;
 //@pragma-end-if

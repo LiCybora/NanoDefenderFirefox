@@ -3,14 +3,15 @@
   "background": {
     "scripts": [
       "common.js",
-      "platform/chromium-vars.js",
+      "platform/firefox-vars.js",
       "background/core.js",
-      "platform/chromium-background.js",
+      "platform/firefox-background.js",
       "background/rules.js",
       "background/debug.js"
     ]
   },
   "browser_action": {
+    "browser_style": false,
     "default_icon": {
       "128": "icon128.png"
     },
@@ -45,7 +46,6 @@
   },
   "incognito": "spanning",
   "manifest_version": 2,
-  "minimum_chrome_version": "63.0",
   "name": "Nano Defender",
   "permissions": [
     "http://*/*",
@@ -55,7 +55,7 @@
     "webRequest",
     "webRequestBlocking"
   ],
-  "version": "14.51",
+  "version": "14.49",
   "web_accessible_resources": [
     "resources/*"
   ]

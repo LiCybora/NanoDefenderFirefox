@@ -1,0 +1,14 @@
+{
+ "addons": {
+  "{f9cacf2e-cafc-4f0f-b6ad-8e1a01b4b4d0}": {
+   "updates": [
+    {
+     "version": "14.49",
+     "applications": { "gecko": { "strict_min_version": "58.0" } },
+     "update_info_url": "https://github.com/LiCybora/NanoDefenderFirefox/tree/14.49",
+     "update_link": "https://github.com/LiCybora/NanoDefenderFirefox/releases/download/14.51/nano_defender-14.49-an.fx.xpi"
+    }
+   ]
+  }
+ }
+}
