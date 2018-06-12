@@ -2,6 +2,8 @@ body {
     margin: 0px;
     user-select: none;
     width: 250px;
+    font-family: sans-serif;
+    background-color: #FFFFFF;
 }
 
 .title {
