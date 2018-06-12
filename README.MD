@@ -2,11 +2,11 @@
 
 An anti-adblock defuser for Nano Adblocker and uBlock Origin
 
-WARNING: This is NOT official Firefox port to Nano Defender and may extremely unstable!
+### WARNING: This is NOT official Firefox port to Nano Defender and may extremely unstable!
 
 Official builds and sources can be found on [Nano Defender](https://github.com/jspenguin2017/uBlockProtector).
 
-jspenguin2017 still find Maintainers for Firefox build!
+### jspenguin2017 still find Maintainers for Firefox build!
 
 ![Popup Panel Screenshot](https://i.imgur.com/xEtuqxH.png)
 
