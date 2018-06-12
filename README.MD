@@ -1,19 +1,21 @@
-# Nano Defender for Firefox[![Build Status](https://travis-ci.org/jspenguin2017/uBlockProtector.svg?branch=master)](https://travis-ci.org/jspenguin2017/uBlockProtector)
+# Nano Defender for Firefox (unofficial) 
 
 An anti-adblock defuser for Nano Adblocker and uBlock Origin
 
-WARNING: This is NOT official Firefox port to Nano Defender.
+WARNING: This is NOT official Firefox port to Nano Defender and may extremely unstable!
+
+Official builds and sources can be found on [Nano Defender](https://github.com/jspenguin2017/uBlockProtector).
 
 jspenguin2017 still find Maintainers for Firefox build!
 
 ![Popup Panel Screenshot](https://i.imgur.com/xEtuqxH.png)
 
-### [Get it Now](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+### [Get it Now (Unofficial and Experimental)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
 ## Building
 
 Nano Defender is built using
-[Nano Build](https://github.com/NanoAdblocker/NanoBuild).
+[Nano Build (Modded)](https://github.com/LiCybora/NanoBuild).
 
 ## Credits
 
