@@ -8,7 +8,7 @@ Official builds and sources can be found on [Nano Defender](https://github.com/j
 
 ### jspenguin2017 still find Maintainers for Firefox build!
 
-![Popup Panel Screenshot](https://i.imgur.com/xEtuqxH.png)
+![Popup Panel Screenshot](https://raw.githubusercontent.com/LiCybora/NanoDefenderFirefox/master/screenshot.png)
 
 ### [Get it Now (Unofficial and Experimental)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
