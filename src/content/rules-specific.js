@@ -614,12 +614,6 @@ if (a.domCmp(["diarioinformacion.com", "mallorcazeitung.es", "diaridegirona.cat"
 if (a.domCmp(["cnbeta.com"])) {
     a.readOnly("JB", () => { });
 }
-if (a.domCmp(["haaretz.co.il"])) {
-    a.inject(() => {
-        "use strict";
-        window.AdBlockUtil = {};
-    });
-}
 if (a.domCmp(["pipocas.tv"])) {
     a.cookie("popup_user_login", "yes");
 }
@@ -2849,9 +2843,6 @@ if (a.domCmp(["ultrahorny.com"])) {
 }
 if (a.domCmp(["uplod.cc"])) {
     a.bait("div", "#bannerad", true);
-}
-if (a.domCmp(["hyperdebrid.net"])) {
-    a.filter("eval", a.matchMethod.string, "eval(function(p,a,c,k,e,d){");
 }
 if (a.domCmp(["pilot.wp.pl"])) {
     a.readOnly("PWA_adbd", 0);
