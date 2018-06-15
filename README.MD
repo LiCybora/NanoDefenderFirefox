@@ -1,6 +1,6 @@
-# Nano Defender for Firefox (unofficial) 
+# Nano Defender for Firefox (Unofficial) 
 
-An anti-adblock defuser for Nano Adblocker and uBlock Origin
+An anti-adblock defuser for Nano Adblocker and uBlock Origin on Firefox
 
 ### WARNING: This is NOT official Firefox port to Nano Defender and may extremely unstable!
 
@@ -10,11 +10,13 @@ Official builds and sources can be found on [Nano Defender](https://github.com/j
 
 ![Popup Panel Screenshot](https://raw.githubusercontent.com/LiCybora/NanoDefenderFirefox/master/screenshot.png)
 
-### [Get it Now (Unofficial and Experimental)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+### [Get it Now (Signed, Unofficial and Experimental)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+
+You may also want unofficial Nano Adblocker for Firefox [here](https://github.com/LiCybora/NanoCoreFirefox)
 
 ## Building
 
-Nano Defender is built using
+Nano Defender for Firefox is built using
 [Nano Build (Modded)](https://github.com/LiCybora/NanoBuild).
 
 ## Credits
