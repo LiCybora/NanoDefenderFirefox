@@ -1,18 +1,22 @@
-# Nano Defender for Firefox (Unofficial) 
+# Nano Defender for Firefox
 
 An anti-adblock defuser for Nano Adblocker and uBlock Origin on Firefox
 
-### WARNING: This is NOT official Firefox port to Nano Defender and may extremely unstable!
-
-Official builds and sources can be found on [Nano Defender](https://github.com/jspenguin2017/uBlockProtector).
-
-### jspenguin2017 still find Maintainers for Firefox build!
-
 ![Popup Panel Screenshot](https://raw.githubusercontent.com/LiCybora/NanoDefenderFirefox/master/screenshot.png)
 
-### [Get it Now (Signed, Unofficial and Experimental)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+## About Firefox port
 
-You may also want unofficial Nano Adblocker for Firefox [here](https://github.com/LiCybora/NanoCoreFirefox)
+The source code of this project is shared from [upstream](https://github.com/jspenguin2017/uBlockProtector)
+
+For issues found on Firefox port, it is recommended to report here.
+
+## Installation
+
+You need Firefox version 58.0 or above to install this extension. Click .xpi file to download and install.
+
+### [Get it Now (Signed and Experimental)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+
+Note: Firefox Sync will **NOT** sync this addon among devices due to unlist from AMO.
 
 ## Building
 
