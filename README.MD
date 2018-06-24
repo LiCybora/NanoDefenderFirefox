@@ -12,11 +12,13 @@ For issues found on Firefox port, it is recommended to report here.
 
 ## Installation
 
-You need Firefox version 58.0 or above to install this extension. Click .xpi file to download and install.
+You need Firefox version 58 or above to install this extension. Click .xpi file
+to download and install.
 
 ### [Get it Now (Signed, Unlisted, Beta)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
-Note: Firefox Sync will **NOT** sync this addon among devices due to unlist from AMO.
+Note: Firefox Sync will **NOT** sync this addon among devices due to unlisted 
+from AMO.
 
 ## Building
 
