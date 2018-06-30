@@ -20,6 +20,9 @@ to download and install.
 Note: Firefox Sync will **NOT** sync this addon among devices due to unlisted 
 from AMO.
 
+*Formerly uBlock Protector. Repository name will not be updated as it would
+break too many links.*
+
 ## Building
 
 Nano Defender for Firefox is built using
