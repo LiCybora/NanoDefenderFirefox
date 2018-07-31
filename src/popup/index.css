@@ -1,10 +1,10 @@
 body {
     margin: 0px;
-    user-select: none;
     min-width: 250px;
     width: auto;
     font-family: sans-serif;
     background-color: #FFFFFF;
+    user-select: none;
 }
 
 .title {
@@ -20,17 +20,8 @@ body {
     }
 
 .wrapper {
-    border-bottom: 1px dashed #CCCCCC;
     padding: 6px;
 }
-
-    .wrapper.separator {
-        border-bottom: 1px solid #000000;
-    }
-
-    .wrapper:last-of-type {
-        border-bottom: none;
-    }
 
     .wrapper:hover {
         background-color: #EEEEEE;
@@ -48,3 +39,11 @@ body {
         position: relative;
         top: -2px;
     }
+
+.separator.dashed {
+    border-bottom: 1px dashed #CCCCCC;
+}
+
+.separator.solid {
+    border-bottom: 1px solid #444444;
+}
