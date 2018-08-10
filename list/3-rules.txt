@@ -85,9 +85,8 @@ zmovs.com##.inplayer_banners
 ||pelcro.com^$third-party
 ||perceivequarter.com^$third-party
 ||hammerhearing.com^$third-party
-||sixscissors.com^$third-party
-! === Pause Adblocker
-/wp-content/plugins/pause-adblocker/*
+! https://github.com/jspenguin2017/uBlockProtector/issues/978
+||sixscissors.com^$third-party,domain=~itavisen.no
 ! === BlockAdBlock
 sectorsatoshi-amarillo.website,sectorsatoshi-azul.website,sectorsatoshi-blanco.website,sectorsatoshi-celeste.website,sectorsatoshi-gris.website,sectorsatoshi-naranja.website##+js(bab-defuser.js)
 sectorsatoshi-negro.website,sectorsatoshi-rosa.website,sectorsatoshi-verde.website,sectorsatoshi-violeta.website##+js(bab-defuser.js)
@@ -526,8 +525,6 @@ peugeot-metropolis.de###displaywise
 /tgs.teaser-ad.js$domain=tagesspiegel.de
 ! === t3n.de
 t3n.de#@##adsbox
-! === thepiratebay.org
-||thepiratebay.org^$inline-script
 ! === yiv.com
 yiv.com###LeftAdDiv
 yiv.com###RightAdDiv

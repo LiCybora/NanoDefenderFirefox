@@ -71,6 +71,7 @@ const knownGood = [
     "jspenguin2017.github.io",
 
     "androidcentral.com",
+    "bild.de",
     "blockadblock.com",
     "businessinsider.com",
     "kissasian.sh",
@@ -78,7 +79,6 @@ const knownGood = [
     "moonbit.co.in",
     "moondoge.co.in",
     "moonliteco.in",
-    "outlook.live.com",
     "symbolab.com",
     "techradar.com",
     "washingtonpost.com",
