@@ -2280,9 +2280,6 @@ if (a.domCmp(["dilidili.wang"])) {
 if (a.domCmp(["dilidili.wang", "reevown.com"])) {
     a.antiCollapse("innerHTML", (elem) => elem === window.document.body);
 }
-if (a.domCmp(["overclockers.ru"])) {
-    a.antiCollapse("innerHTML", (ignored, val) => val.includes("images/hungry.png"));
-}
 if (a.domCmp(["gamekit.com"])) {
     a.filter("setInterval", a.matchMethod.string, "a-d-block-popup");
 }
@@ -3038,20 +3035,6 @@ if (a.domCmp(["washingtonpost.com"])) {
 }
 if (a.domCmp(["lcpdfr.com"])) {
     a.noAccess("FuckAdBlock");
-}
-if (a.domCmp(["wowescape.com"])) {
-    // https://github.com/uBlockOrigin/uAssets/issues/3200
-    a.beforeScript((script) => {
-        if (
-            script.textContent &&
-            script.textContent.includes("var adsManager;")
-        ) {
-            script.textContent = script.textContent.replace(
-                "setUpIMA();",
-                "onAdSKIPPED();",
-            );
-        }
-    });
 }
 
 // Nano Adblocker does not support UserCSS because it breaks DOM Inspector,
