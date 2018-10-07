@@ -3,7 +3,7 @@
  */
 "use strict";
 
-if (a.domCmp(["catchcoin.pw", "irc-source.com", "dogecatch.website", "dashcatch.xyz"])) {
+if (a.domCmp(["catchcoin.pw", "irc-source.com", "dashcatch.xyz"])) {
     a.noAccess("adBlockDetected");
 }
 if (a.domCmp(["mid-day.com", "happytrips.com", "jagranjunction.com"])) {
@@ -353,7 +353,7 @@ if (a.domCmp(["mariage-franco-marocain.net"])) {
     a.css("#my_ad_div { height:1px; }");
 }
 if (a.domCmp(["happy-hack.ru"])) {
-    a.css("#blockblockF4 { visibility:invisible; display:none; } #blockblockF4 td {visibility:invisible; display:none; } " +
+    a.css("#blockblockF4 { visibility:invisible; display:none; } #blockblockF4 td { visibility:invisible; display:none; } " +
         "#blockblockF4 td p { visibility:invisible; display:none; } #blockblockD3 { visibility:visible; display:block; }");
 }
 if (a.domCmp(["tgo-tv.com"])) {
@@ -586,9 +586,6 @@ if (a.domCmp(["jbzdy.pl"])) {
             },
         });
     });
-}
-if (a.domCmp(["comptoir-hardware.com"])) {
-    a.readOnly("adblock", `"non"`);
 }
 if (a.domCmp(["infoua.biz"])) {
     a.filter("setTimeout", a.matchMethod.stringExact, "function (){b()}");
@@ -1698,15 +1695,6 @@ if (a.domCmp(["ally.sh", "al.ly", "croco.site"])) {
         window.open = null;
     });
 }
-if (a.domCmp(["filmyiseriale.net"])) {
-    // https://github.com/jspenguin2017/uBlockProtector/issues/152
-    a.ready(() => {
-        a.inject(() => {
-            "use strict";
-            window.konik = 1;
-        });
-    });
-}
 if (a.domCmp(["tf2center.com"])) {
     // https://github.com/jspenguin2017/uBlockProtector/issues/141
     a.filter("setInterval", a.matchMethod.string, '"/adblock"');
@@ -1740,9 +1728,6 @@ if (a.domCmp(["netdna-storage.com"])) {
             }
         });
     });
-}
-if (a.domCmp(["mma-core.com"])) {
-    a.noAccess("displayAdBlockedVideo");
 }
 if (a.domCmp(["menshealth.pl", "womenshealth.pl", "runners-world.pl", "auto-motor-i-sport.pl", "motocykl-online.pl",
     "mojeauto.pl"])) {
@@ -2007,9 +1992,6 @@ if (a.domCmp(["lewat.id", "u2s.io"])) {
             clearInterval(token);
         }
     }, 250);
-}
-if (a.domCmp(["shinden.pl"])) {
-    a.readOnly("shinden_ads", true);
 }
 if (a.domCmp(["onhax.me"])) {
     a.inject(() => {
@@ -2963,9 +2945,6 @@ if (a.domCmp(["wurstclient.net"])) {
 }
 if (a.domCmp(["version2.dk"])) {
     a.bait("div", "#banner", true);
-}
-if (a.domCmp(["adyou.me"])) {
-    a.filter("eval", a.matchMethod.RegExp, /acPrefetch|LEGAL NOTICE/);
 }
 if (a.domCmp(["crockolinks.com"])) {
     a.noAccess("test");
