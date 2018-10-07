@@ -20,6 +20,11 @@ to download and install.
 Note: Firefox Sync will **NOT** sync this addon among devices due to unlisted 
 from AMO.
 
+### About Pre-quantum fork
+
+**No official support for pre-quantum fork (such as Waterfox, Palemoon).** See 
+[this](https://github.com/LiCybora/NanoDefenderFirefox/issues/30#issuecomment-405822737).
+
 ## Building
 
 Nano Defender for Firefox is built using
