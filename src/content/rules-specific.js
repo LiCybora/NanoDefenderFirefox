@@ -1209,14 +1209,8 @@ if (a.domCmp(["next-episode.net", "kingmaker.news", "gamespowerita.com", "todayi
         });
     });
 }
-if (a.domCmp(["dawn.com"])) {
-    a.generic.FuckAdBlock("DetectAdBlock", "detectAdBlock");
-}
 if (a.domCmp(["sports.fr", "europe1.fr"])) {
     a.generic.FuckAdBlock("FabInstance", "fabInstance");
-}
-if (a.domCmp(["newyorker.com"])) {
-    a.generic.FuckAdBlock("SniffAdBlock", "sniffAdBlock");
 }
 if (a.domCmp(["mangasproject.com.br", "mangasproject.net.br", "mangas.zlx.com.br"])) {
     a.generic.FuckAdBlock(a.uid(), "mangasLeitorSlider");
@@ -1308,26 +1302,8 @@ if (a.domCmp(["hanime.tv", "ah-me.com", "shortin.ga", "wolink.in"])) {
         };
     });
 }
-if (a.domCmp(["git.tc"])) {
-    const magic = a.uid();
-    addEventListener(magic, () => {
-        a.close();
-    });
-    a.inject(`(() => {
-        "use strict";
-        const _open = window.open;
-        window.open = (...args) => {
-            _open.apply(window, args);
-            window.dispatchEvent(new window.CustomEvent("${magic}"));
-        };
-    })();`, true);
-}
 if (a.domCmp(["hanime.tv"])) {
     a.noAccess("confirm");
-}
-if (a.domCmp(["firstonetv.eu"])) {
-    a.readOnly("blocked", () => { });
-    a.readOnly("adFuckBlock", () => { });
 }
 if (a.domCmp(["whosampled.com"])) {
     a.readOnly("showAdBlockerOverlay", () => { });
@@ -2047,9 +2023,6 @@ if (a.domCmp(["dailyuploads.net"])) {
 }
 if (a.domCmp(["buickforums.com"])) {
     a.bait("div", "#TestAdBlock", true);
-}
-if (a.domCmp(["realkana.com"])) {
-    a.generic.FuckAdBlock("HooAdBlock", "hooAdBlock");
 }
 if (a.domCmp(["generatorlinkpremium.com"])) {
     a.ready(() => {
