@@ -3,9 +3,9 @@
   "{f9cacf2e-cafc-4f0f-b6ad-8e1a01b4b4d0}": {
    "updates": [
     {
-     "version": "15.0.0.59",
+     "version": "15.0.0.64",
      "applications": { "gecko": { "strict_min_version": "58.0" } },
-     "update_link": "https://github.com/LiCybora/NanoDefenderFirefox/releases/download/v15.0.0.59/nano_defender-15.0.0.59-an+fx.xpi"
+     "update_link": "https://github.com/LiCybora/NanoDefenderFirefox/releases/download/v15.0.0.64/nano_defender-15.0.0.64-an+fx.xpi"
     }
    ]
   }
