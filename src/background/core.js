@@ -1,14 +1,39 @@
-/**
- * Core library for background rules.
- */
+/******************************************************************************
+
+    Nano Defender - An anti-adblock defuser
+    Copyright (C) 2016-2018  Nano Defender contributors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*******************************************************************************
+
+    Core library for background rules.
+
+******************************************************************************/
+
 "use strict";
 
+/*****************************************************************************/
 
 /**
- * Initialization.
+ * Run initialization steps. Call once on start up.
  * @function
  */
 a.init = () => {
+
+    /*************************************************************************/
+
     chrome.runtime.onMessage.addListener((msg, sender, res) => {
         if (
             typeof msg !== "object" ||
@@ -95,6 +120,8 @@ a.init = () => {
         }
     });
 
+    /*************************************************************************/
+
     // Taken from:
     // https://github.com/gorhill/uBlock/blob/7e5661383a77689e1ec67f6c32783c2b6f933cae/platform/chromium/vapi-background.js#L988
     const root = chrome.runtime.getURL("/");
@@ -113,6 +140,8 @@ a.init = () => {
             "blocking",
         ],
     );
+
+    /*************************************************************************/
 
     const reporter = chrome.runtime.getURL("/reporter/index.html");
     chrome.runtime.onMessageExternal.addListener((msg, sender, res) => {
@@ -153,24 +182,59 @@ a.init = () => {
         );
     }, 15000);
 
+    /*************************************************************************/
+
     //@pragma-if-debug
+
     if (a.debugMode) {
-        chrome.browserAction.setBadgeText({
-            text: "DBG",
-        });
-        chrome.browserAction.setBadgeBackgroundColor({
-            color: "#406BD1",
-        });
+        chrome.browserAction.setBadgeText({ text: "DBG" });
+        chrome.browserAction.setBadgeBackgroundColor({ color: "#406BD1" });
     } else {
-        chrome.browserAction.setBadgeText({
-            text: "DEV",
-        });
-        chrome.browserAction.setBadgeBackgroundColor({
-            color: "#00871D",
-        });
+        chrome.browserAction.setBadgeText({ text: "DEV" });
+        chrome.browserAction.setBadgeBackgroundColor({ color: "#00871D" });
     }
+
     //@pragma-end-if
+
+    /*************************************************************************/
+
+    // TODO: Remove when the grand majority of users have migrated
+
+    // Instruct user to update subscription link since RawGit is shutting
+    // down
+
+    const upgradeMessageKey = "rawgitupgrade";
+
+    chrome.browserAction.onClicked.addListener(() => {
+        chrome.browserAction.setBadgeText({ text: "" });
+        chrome.browserAction.setPopup({ popup: "popup/index.html" });
+
+        localStorage.setItem(upgradeMessageKey, "true");
+
+        chrome.tabs.create({
+            url: "https://jspenguin2017.github.io/uBlockProtector/#announcements",
+        });
+    });
+
+    if (
+        !chrome.extension.inIncognitoContext &&
+        !localStorage.getItem(upgradeMessageKey)
+    ) {
+        chrome.browserAction.setBadgeText({ text: "NEW" });
+        chrome.browserAction.setBadgeBackgroundColor({ color: "#FF0000" });
+
+        chrome.browserAction.setPopup({ popup: "" });
+    }
+
+    // TODO: Clean up when above is removed
+    //localStorage.removeItem(upgradeMessageKey);
+
+    /*************************************************************************/
+
 };
+
+/*****************************************************************************/
+
 /**
  * Check chrome.runtime.lastError and do nothing.
  * @function
@@ -179,6 +243,7 @@ a.noopErr = () => {
     void chrome.runtime.lastError;
 };
 
+/*****************************************************************************/
 
 /**
  * Resource access secret.
@@ -187,11 +252,13 @@ a.noopErr = () => {
 a.rSecret =
     Math.random().toString(36).substring(2) +
     Math.random().toString(36).substring(2);
+
 /**
  * Resource root directory.
  * @const {string}
  */
 a.rRoot = chrome.runtime.getURL("/resources/");
+
 /**
  * Create resource access URL.
  * @function
@@ -200,6 +267,9 @@ a.rRoot = chrome.runtime.getURL("/resources/");
 a.rLink = (name) => {
     return a.rRoot + name + "?s=" + a.rSecret;
 };
+
+/*****************************************************************************/
+
 /**
  * 1 second blank MP4, taken from:
  * https://github.com/uBlockOrigin/uAssets/blob/2068e45e97ff4fd6efda0584508173a4de7915e8/filters/resources.txt#L72
@@ -207,6 +277,7 @@ a.rLink = (name) => {
  */
 a.blankMP4 = a.rLink("blank.mp4");
 
+/*****************************************************************************/
 
 /**
  * Get the URL of a frame of a tab.
@@ -263,6 +334,7 @@ a.getTabURL = (() => {
         }
     };
 })();
+
 /**
  * Check if the domain of an URL ends with one of the domains in the list.
  * A list entry "example.com" will match domains that matches
@@ -297,6 +369,9 @@ a.domCmp = (() => {
         return false === isMatch;
     };
 })();
+
+/*****************************************************************************/
+
 /**
  * Register a static loopback server.
  * @function
@@ -332,6 +407,7 @@ a.staticServer = (urls, types, data, domList, isMatch = true) => {
         ],
     );
 };
+
 /**
  * Register a dynamic loopback server.
  * @function
@@ -375,6 +451,7 @@ a.dynamicServer = (urls, types, server, domList, isMatch = true) => {
     );
 };
 
+/*****************************************************************************/
 
 /**
  * Inject UserCSS.
@@ -403,6 +480,7 @@ a.userCSS = (tab, frame, code) => {
         }, a.noopErr);
     }
 };
+
 /**
  * Send a cross origin XMLHttpRequest.
  * @function
@@ -471,9 +549,10 @@ a.xhr = (details, onload, onerror) => {
     return true;
 };
 
+/*****************************************************************************/
 
 /**
- * Apply generic rules.
+ * Apply generic rules. Call once on start up.
  * @function
  */
 a.generic = () => {
@@ -516,8 +595,10 @@ a.generic = () => {
     );
 };
 
+/*****************************************************************************/
 
 //@pragma-if-debug
+
 /**
  * Attempt to make the server think the request is from a different IP. Rarely
  * works.
@@ -561,4 +642,7 @@ a.proxy = (urls, ip, log) => {
         ],
     );
 };
+
 //@pragma-end-if
+
+/*****************************************************************************/
