@@ -12,7 +12,7 @@ For issues found on Firefox port, it is recommended to report here.
 
 ## Installation
 
-You need Firefox version 58 or above to install this extension. Click .xpi file
+You need Firefox version 60 or above to install this extension. Click .xpi file
 to download and install.
 
 ### [Get it Now (Signed, Unlisted, Beta)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
