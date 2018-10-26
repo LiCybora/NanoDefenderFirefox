@@ -42,22 +42,15 @@ a.init = () => {
         ) {
             return;
         }
-        if (
-            typeof msg.cmd !== "string" ||
-            typeof sender.tab !== "object"
-        ) {
+
+        if (typeof msg.cmd !== "string" || typeof sender.tab !== "object")
             return;
-        }
 
         const tab = sender.tab.id;
         const frame = sender.frameId || 0;
 
-        if (
-            typeof tab !== "number" ||
-            typeof frame !== "number"
-        ) {
+        if (typeof tab !== "number" || typeof frame !== "number")
             return;
-        }
 
         switch (msg.cmd) {
             /**
@@ -65,9 +58,8 @@ a.init = () => {
              * @param {string} data - The CSS code to inject.
              */
             case "inject css":
-                if (typeof msg.data === "string") {
+                if (typeof msg.data === "string")
                     a.userCSS(tab, frame, msg.data);
-                }
                 break;
 
             /**
@@ -98,9 +90,8 @@ a.init = () => {
              * Forcefully close the sender tab.
              */
             case "remove tab":
-                if (tab !== chrome.tabs.TAB_ID_NONE) {
+                if (tab !== chrome.tabs.TAB_ID_NONE)
                     chrome.tabs.remove(tab, a.noopErr);
-                }
                 break;
 
             //@pragma-if-debug
@@ -109,9 +100,8 @@ a.init = () => {
              * @param {string} data - The data to log.
              */
             case "log":
-                if (a.debugMode) {
+                if (a.debugMode)
                     console.log(msg.data);
-                }
                 break;
             //@pragma-end-if
 
@@ -122,14 +112,12 @@ a.init = () => {
 
     /*************************************************************************/
 
-    // Taken from:
-    // https://github.com/gorhill/uBlock/blob/7e5661383a77689e1ec67f6c32783c2b6f933cae/platform/chromium/vapi-background.js#L988
+    // Taken from https://bit.ly/2OJzDAI (GitHub gorhill/uBlock)
     const root = chrome.runtime.getURL("/");
     chrome.webRequest.onBeforeRequest.addListener(
         (details) => {
-            if (!details.url.endsWith(a.rSecret)) {
+            if (!details.url.endsWith(a.rSecret))
                 return { redirectUrl: root };
-            }
         },
         {
             urls: [
@@ -198,36 +186,42 @@ a.init = () => {
 
     /*************************************************************************/
 
-    // TODO: Remove when the grand majority of users have migrated
+    const hasNews = false;
+    const newsPage =
+        "https://jspenguin2017.github.io/uBlockProtector/#announcements";
 
-    // Instruct user to update subscription link since RawGit is shutting
-    // down
+    const newsReadFlag = "news-read";
 
-    const upgradeMessageKey = "rawgitupgrade";
-
+    // This handler will become inactive when there is a popup page set
     chrome.browserAction.onClicked.addListener(() => {
         chrome.browserAction.setBadgeText({ text: "" });
+
+        // Important: This must match the manifest
         chrome.browserAction.setPopup({ popup: "popup/index.html" });
 
-        localStorage.setItem(upgradeMessageKey, "true");
+        localStorage.setItem(newsReadFlag, "true");
 
-        chrome.tabs.create({
-            url: "https://jspenguin2017.github.io/uBlockProtector/#announcements",
-        });
+        chrome.tabs.create({ url: newsPage });
     });
 
-    if (
-        !chrome.extension.inIncognitoContext &&
-        !localStorage.getItem(upgradeMessageKey)
-    ) {
-        chrome.browserAction.setBadgeText({ text: "NEW" });
-        chrome.browserAction.setBadgeBackgroundColor({ color: "#FF0000" });
+    if (hasNews) {
+        if (
+            !chrome.extension.inIncognitoContext &&
+            !localStorage.getItem(newsReadFlag)
+        ) {
+            chrome.browserAction.setBadgeText({ text: "NEW" });
+            chrome.browserAction.setBadgeBackgroundColor({ color: "#FF0000" });
 
-        chrome.browserAction.setPopup({ popup: "" });
+            chrome.browserAction.setPopup({ popup: "" });
+        }
+    } else {
+        localStorage.removeItem(newsReadFlag);
     }
 
-    // TODO: Clean up when above is removed
-    //localStorage.removeItem(upgradeMessageKey);
+    /*************************************************************************/
+
+    // TODO: Remove when 15.0.0.65 is widespread
+    localStorage.removeItem("rawgitupgrade");
 
     /*************************************************************************/
 
@@ -271,8 +265,8 @@ a.rLink = (name) => {
 /*****************************************************************************/
 
 /**
- * 1 second blank MP4, taken from:
- * https://github.com/uBlockOrigin/uAssets/blob/2068e45e97ff4fd6efda0584508173a4de7915e8/filters/resources.txt#L72
+ * 1 second blank MP4, taken from
+ * https://bit.ly/2JcYAyq (GitHub uBlockOrigin/uAssets).
  * @const {string}
  */
 a.blankMP4 = a.rLink("blank.mp4");
@@ -360,7 +354,7 @@ a.domCmp = (() => {
                 dom.endsWith(domList[i]) &&
                 (
                     dom.length === domList[i].length ||
-                    dom.charAt(dom.length - domList[i].length - 1) === '.'
+                    dom.charAt(dom.length - domList[i].length - 1) === "."
                 )
             ) {
                 return true === isMatch;
