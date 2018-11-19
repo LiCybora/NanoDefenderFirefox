@@ -12,7 +12,7 @@ a.generic();
     chrome.webRequest.onBeforeSendHeaders.addListener(
         (details) => {
             let asyncRewrite = new Promist((resolve, reject) => {
-                window.setTimeout(() => {
+                setTimeout(() => {
                     for (let i = 0; i < details.requestHeaders.length; i++) {
                         if (details.requestHeaders[i].name === "User-Agent") {
                             details.requestHeaders.splice(i, 1);
