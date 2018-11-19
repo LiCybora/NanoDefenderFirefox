@@ -11,7 +11,7 @@ a.generic();
     // https://github.com/jspenguin2017/uBlockProtector/issues/169
     chrome.webRequest.onBeforeSendHeaders.addListener(
         (details) => {
-            let asyncRewrite = new Promist((resolve, reject) => {
+            let asyncRewrite = new Promise((resolve, reject) => {
                 setTimeout(() => {
                     for (let i = 0; i < details.requestHeaders.length; i++) {
                         if (details.requestHeaders[i].name === "User-Agent") {
