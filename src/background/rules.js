@@ -19,6 +19,7 @@ a.generic();
                             break;
                         }
                     }
+                    resolve({requestHeaders: details.requestHeaders});
                 }, 2000)
             });
             return asyncRewrite;
