@@ -11,18 +11,14 @@ a.generic();
     // https://github.com/jspenguin2017/uBlockProtector/issues/169
     chrome.webRequest.onBeforeSendHeaders.addListener(
         (details) => {
-            let asyncRewrite = new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    for (let i = 0; i < details.requestHeaders.length; i++) {
-                        if (details.requestHeaders[i].name === "User-Agent") {
-                            details.requestHeaders.splice(i, 1);
-                            break;
-                        }
-                    }
-                    resolve({requestHeaders: details.requestHeaders});
-                }, 2000)
-            });
-            return asyncRewrite;
+            for (let i = 0; i < details.requestHeaders.length; i++) {
+                if (details.requestHeaders[i].name === "User-Agent") {
+                    details.requestHeaders[i].value = "curl/7.0";
+                    // details.requestHeaders.splice(i, 1);
+                    break;
+                }
+            }
+            return { requestHeaders: details.requestHeaders };
         },
         {
             urls: [
