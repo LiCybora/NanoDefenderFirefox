@@ -30,7 +30,6 @@
         <br />
 
         <p><a href="https://chrome.google.com/webstore/detail/nano-defender/ggolfgbegefeeoocgjbmkembbncoadlb" target="_blank" rel="noopener">Get Nano Defender for <strong>Chrome</strong> or <strong>Chromium</strong></a></p>
-        <p><a href="https://github.com/NanoAdblocker/NanoCore/blob/master/notes/install-in-edge.MD#install-in-edge" target="_blank" rel="noopener">Get Nano Defender for <strong>Edge</strong> (Unsigned, Developers Only, Only Works with Nano Adblocker)</a></p>
         <br />
 
         <p>If you are using uBlock Origin, there are a few <a href="#extra-installation-steps-for-ublock-origin">extra installation steps</a> to follow.</p>
@@ -107,7 +106,7 @@
         <p><strong>Can mining wall be bypassed?</strong></p>
         <p>No, that is not possible if the implementation on the server side is correct.</p>
         <p>Adblockers block mining scripts by default and I will not add exceptions if the mining process is started automatically.</p>
-        <p>The control is in your hand, whitelist the page if you absolutely need the resources locked behind the wall.</p>
+        <p>Whitelist the page if you want the resources locked behind the wall.</p>
         <br />
 
         <p><strong>Nano Defender is causing (further) breakage.</strong></p>
@@ -117,7 +116,7 @@
         <p><strong>A website freezes with Nano Defender enabled.</strong></p>
         <p>Some websites will intentionally freeze (with an infinite loop for example) once they detect Nano Defender, it could also be caused by a bug in Nano Defender.</p>
         <p>Either way, <a href="#reporting-an-issue">report it</a> and I will try to take care of it within 2 days. Keep in mind that this only apply to freezings caused by Nano Defender, other freezings may not be fixed this fast.</p>
-        <p>On Chrome or Chromium, you can use task manager to terminate the tab that froze, go to <code>Menu -&gt; More tools -&gt; Task manager</code>, select the tab that froze, then click <code>End process</code>.</p>
+        <p>In Chrome or Chromium, you can use task manager to terminate the tab that froze, go to <code>Menu -&gt; More tools -&gt; Task manager</code>, select the tab that froze, then click <code>End process</code>.</p>
         <br />
 
         <p><strong>A website is still detecting my adblocker.</strong></p>
@@ -285,7 +284,6 @@
         <p><strong>Check open issues in the following issues trackers for other known issues</strong></p>
         <!--
         <p><a href="https://github.com/jspenguin2017/uBlockProtector/issues" target="_blank" rel="noopener">Nano Defender Primary Issues Tracker</a></p>
-        <p><a href="https://github.com/NanoAdblocker/NanoDefender/issues" target="_blank" rel="noopener">Nano Defender Secondary Issues Tracker</a></p>
         -->
         <p><a href="https://github.com/NanoMeow/QuickReports/issues" target="_blank" rel="noopener">Quick Reports Issues Tracker</a></p>
         <p><a href="https://github.com/NanoAdblocker/NanoFilters/issues" target="_blank" rel="noopener">Nano Filters Issues Tracker</a></p>
@@ -294,21 +292,18 @@
 
     <div class="container" id="reporting-an-issue">
         <h2>Reporting an issue</h2>
-        <p><strong>Must read:</strong> The version of uBlock Origin that Nano Adblocker uses can be found in About section of Nano Dashboard. I am aware that Nano Adblocker is different, but when it comes to filters, most of the times things work the same. If you have been told by contributors of uAssets that your issue could not be reproduced, <strong>ping @jspenguin2017</strong> or report it again to <a href="https://github.com/NanoAdblocker/NanoFilters/issues" target="_blank" rel="noopener">NanoFilters</a>.</p>
-        <br />
 
-        <p>Before opening an issue, <strong>always</strong> check <a href="#known-issues">known issues</a>.</p>
-        <p>If you are using Edge, report all issues to <a href="https://github.com/NanoAdblocker/NanoFilters/issues" target="_blank" rel="noopener">NanoFilters</a>.</p>
+        <p>Before reporting an issue, <strong>always</strong> check <a href="#known-issues">known issues</a>.</p>
         <br />
 
         <p>For missed ads and tracking scripts, report to <a href="https://github.com/easylist/easylist/issues" target="_blank" rel="noopener">EasyList</a>.</p>
-        <p>For hard anti-adblock (allow ads or leave type) and popups, report to <a href="https://github.com/uBlockOrigin/uAssets" target="_blank" rel="noopener">uAssets</a>.</p>
         <p>For cookie notices, report to <a href="https://github.com/ryanbr/fanboy-adblock/issues" target="_blank" rel="noopener">Fanboy</a>.</p>
         <p>For any other filter issues, report to <a href="https://github.com/NanoAdblocker/NanoFilters/issues" target="_blank" rel="noopener">NanoFilters</a>.</p>
         <p>For bugs, suggestions, and questions, report to <a href="https://github.com/NanoAdblocker/NanoCore/issues" target="_blank" rel="noopener">NanoCore</a>.</p>
-
         <br />
-        <p><strong>Confused?</strong> Try out the new Quick Issue Reporter! Click the extension icon of Nano Defender to find it.</p>
+
+        <p>You <strong>must</strong> always fill the issue template when opening issues.</p>
+        <p><strong>Too much work?</strong> Give Quick Issue Reporter a try! It will automatically handle the tedious parts of the template for you. Click the extension icon of Nano Defender to find it.</p>
     </div>
 
     <div class="container" id="extra-installation-steps-for-ublock-origin">
