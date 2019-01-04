@@ -1,5 +1,6 @@
 version: "1"
 rules:
-  - base: pullTest
+  - base: master
     upstream: jspenguin2017:master
-    autoMerge: true
+    autoMerge: false
+    autoMergeHardReset: false
