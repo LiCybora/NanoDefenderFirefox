@@ -284,7 +284,7 @@ a.getTabURL = (() => {
     }
     //@pragma-end-if
 
-    chrome.tabs.query({}, (existingTabs) => {
+    chrome.tabs.query({discarded: false}, (existingTabs) => {
         for (let i = 0; i < existingTabs.length; i++) {
             const id = existingTabs[i].id;
             if (id !== chrome.tabs.TAB_ID_NONE) {
