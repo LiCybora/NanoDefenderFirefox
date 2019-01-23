@@ -1,0 +1,6 @@
+version: "1"
+rules:
+  - base: master
+    upstream: jspenguin2017:master
+    autoMerge: false
+    autoMergeHardReset: false
