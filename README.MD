@@ -15,10 +15,11 @@ For issues found on Firefox port, it is recommended to report here.
 You need Firefox version 60 or above to install this extension. Click .xpi file
 to download and install.
 
-### [Get it Now (Signed, Unlisted, Beta)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+### [Get it here (Signed, Unlisted)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
-Note: Firefox Sync will **NOT** sync this addon among devices due to unlisted 
-from AMO.
+### [Get it on AMO (Experimental)](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
+
+Note: The version on AMO is still experimental. **DO NOT install both version.**
 
 ### About Pre-quantum fork
 
