@@ -6,19 +6,47 @@
 
 
 /**
- * Shortcut for new $.Selection(input).
+ * Shortcut for new cssSelect.Selection(input).
  * @function
  * @param {string} input - The query selector.
- * @return {$.Selection} The selection object.
+ * @return {cssSelect.Selection} The selection object.
  */
-var $ = input => new $.Selection(input);
+var cssSelect = input => new cssSelect.Selection(input);
+
+/**
+ * Insert methods.
+ * @const {Enumeration}
+ */
+const insertMethod = {
+    /**
+     * Assign html.
+     */
+    assign: 0,
+    /**
+     * Insert beforeBegin
+     */
+    before: 1,
+    /**
+     * Insert afterBegin
+     */
+    prepend: 2,
+    /**
+     * Insert beforeEnd
+     */
+    append: 3,
+    /**
+     * Insert afterEnd
+     */
+    after: 4,
+};
+
 
 /**
  * Selection class.
  * Unless otherwise specified, all methods return the keyword this.
  * @class
  */
-$.Selection = class {
+cssSelect.Selection = class {
     /**
      * Constructor.
      * @constructor
@@ -115,10 +143,10 @@ $.Selection = class {
      * Copy current selection, this is useful when you do not want selection
      * methods to update current selection.
      * @method
-     * @return {$.Selection} The new Selection object.
+     * @return {cssSelect.Selection} The new Selection object.
      */
     copy() {
-        return new $.Selection(null, this.selection.slice());
+        return new cssSelect.Selection(null, this.selection.slice());
     }
     /**
      * Update current selection, only keep the selected element with given
@@ -334,6 +362,45 @@ $.Selection = class {
             return this;
         }
     }
+
+    /**
+     * Insert or replace DOM or HTML.
+     * @method
+     * @param {DOMString} html - The DOM/html text to be inserted/replace.
+     * @param {Enumeration} [method=insertMethod.assign] - Indicate assignment, 
+     * or where for the DOM to be inserted.
+     */
+    _insertHTML(html, method = insertMethod.assign) {
+        if (this.selection.length) {
+            try {
+                const nodes = document.createRange().createContextualFragment(html);
+                const insertBefore = (method === insertMethod.before || 
+                    method === insertMethod.prepend);
+                const isParent = (method === insertMethod.before || 
+                    method === insertMethod.after);
+                const child = insertBefore ? "lastChild" : "firstChild";
+                for (let s of this.selection) {
+                    const target = (isParent ? s.parentNode : s);
+                    if (method === insertMethod.assign) {
+                        target.textContent = "";
+                    }
+                    while (nodes[child]) {
+                        if (insertBefore) {
+                            target.insertBefore(nodes[child], target.firstChild);
+                        } else {
+                            target.appendChild(nodes[child]);
+                        }
+                    }
+                }
+            } catch (err) {
+                const methodName = Object.keys(insertMethod).find(key => object[key] === method);
+                console.error(`[Nano] Failed :: While ${methodName} HTML elements`);
+            }
+        }
+        return this;
+    };
+
+
     /**
      * Get or set innerHTML. Affects only the first element on get mode, but
      * affects all selected elements in set mode.
@@ -348,10 +415,7 @@ $.Selection = class {
         if (html === undefined) {
             return this.selection.length ? this.selection[0].innerHTML : "";
         } else {
-            for (let s of this.selection) {
-                s.innerHTML = html;
-            }
-            return this;
+            return this._insertHTML(html);
         }
     }
     /**
@@ -430,13 +494,7 @@ $.Selection = class {
      * @param {DOMString} input - The DOM string to insert.
      */
     before(input) {
-        for (let s of this.selection) {
-            // Must have parent node in this insert mode
-            if (s.parentNode) {
-                s.insertAdjacentHTML("beforebegin", input);
-            }
-        }
-        return this;
+        return this._insertHTML(html, insertMethod.before);
     }
     /**
      * Insert HTML after the beginning of each selected elements.
@@ -444,10 +502,7 @@ $.Selection = class {
      * @param {DOMString} input - The DOM string to insert.
      */
     prepend(input) {
-        for (let s of this.selection) {
-            s.insertAdjacentHTML("afterbegin", input);
-        }
-        return this;
+        return this._insertHTML(html, insertMethod.prepend);
     }
     /**
      * Insert HTML before the end of each selected elements.
@@ -455,10 +510,7 @@ $.Selection = class {
      * @param {DOMString} input - The DOM string to insert.
      */
     append(input) {
-        for (let s of this.selection) {
-            s.insertAdjacentHTML("beforeend", input);
-        }
-        return this;
+        return this._insertHTML(html, insertMethod.append);
     }
     /**
      * Insert HTML after the end of each selected elements if possible.
@@ -466,13 +518,7 @@ $.Selection = class {
      * @param {DOMString} input - The DOM string to insert.
      */
     after(input) {
-        for (let s of this.selection) {
-            // Must have parent node in this insert mode
-            if (s.parentNode) {
-                s.insertAdjacentHTML("afterend", input);
-            }
-        }
-        return this;
+        return this._insertHTML(html, insertMethod.after);
     }
 
 
@@ -523,7 +569,7 @@ $.Selection = class {
  *     @param {string} response - The response text.
  * @param {Function} onerror - The error event handler.
  */
-$.request = (details, onload, onerror) => {
+cssSelect.request = (details, onload, onerror) => {
     let req = new XMLHttpRequest();
 
     req.onreadystatechange = () => {

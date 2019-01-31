@@ -41,7 +41,7 @@ const home = [
 
 {
     const manifest = chrome.runtime.getManifest();
-    $(".title > p").text(manifest.name + " " + manifest.version);
+    cssSelect(".title > p").text(manifest.name + " " + manifest.version);
 }
 
 /*****************************************************************************/
@@ -58,7 +58,7 @@ chrome.tabs.query({
 
 /*****************************************************************************/
 
-$(".wrapper").on("click", function () {
+cssSelect(".wrapper").on("click", function () {
     const url = home[this.dataset.home] + this.dataset.href;
     chrome.tabs.create({ url: url });
 });

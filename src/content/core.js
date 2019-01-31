@@ -960,8 +960,8 @@ a.generic = () => {
     // document-end
     a.ready(() => {
         // AdBlock Alerter (WP)
-        if ($("div.adb_overlay > div.adb_modal_img").length) {
-            $("div.adb_overlay").remove();
+        if (cssSelect("div.adb_overlay > div.adb_modal_img").length) {
+            cssSelect("div.adb_overlay").remove();
             a.css("html, body { height:auto; overflow:auto; }");
             a.err("AdBlock Alerter");
         }

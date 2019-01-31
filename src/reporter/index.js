@@ -26,16 +26,16 @@ const detailsLimit = 3072;
  * @listens input
  */
 const updateDetailsLimit = () => {
-    const length = $("#details").prop("value").length;
+    const length = cssSelect("#details").prop("value").length;
 
-    $("#character-count").text(
+    cssSelect("#character-count").text(
         length.toString() + "/" + detailsLimit.toString(),
     );
 
     if (length > detailsLimit) {
-        $("#character-count").addClass("red");
+        cssSelect("#character-count").addClass("red");
     } else {
-        $("#character-count").rmClass("red");
+        cssSelect("#character-count").rmClass("red");
     }
 };
 
@@ -53,8 +53,8 @@ const appName = (() => {
  * @param {DOMString} msg - The message to show
  */
 const showMessage = (msg) => {
-    $("#msg-specific-error p").html(msg);
-    $("#msg-specific-error").addClass("open");
+    cssSelect("#msg-specific-error p").html(msg);
+    cssSelect("#msg-specific-error").addClass("open");
 };
 
 /**
@@ -119,20 +119,20 @@ const domCmp = (domain, matchers) => {
 };
 
 
-$("#category").on("change", function () {
+cssSelect("#category").on("change", function () {
     if (this.value === "Ads") {
         showMessage("For missed ads and popups, please try the " +
             "<a href='https://forums.lanik.us/'>EasyList Forum</a> first.");
     }
 });
 
-$("#details").on("input", updateDetailsLimit);
+cssSelect("#details").on("input", updateDetailsLimit);
 updateDetailsLimit();
 
-$("#send").on("click", async () => {
-    const category = $("#category").prop("value");
-    const url = $("#url").prop("value").trim();
-    const details = $("#details").prop("value");
+cssSelect("#send").on("click", async () => {
+    const category = cssSelect("#category").prop("value");
+    const url = cssSelect("#url").prop("value").trim();
+    const details = cssSelect("#details").prop("value");
 
     if (!category) {
         showMessage("Please select an issue type.");
@@ -146,11 +146,11 @@ $("#send").on("click", async () => {
     }
     domain = domain[1];
     if (domCmp(domain, knownGood)) {
-        $("#msg-known-good").addClass("open");
+        cssSelect("#msg-known-good").addClass("open");
         return;
     }
     if (domCmp(domain, knownBad)) {
-        $("#msg-known-bad").addClass("open");
+        cssSelect("#msg-known-bad").addClass("open");
         return;
     }
 
@@ -178,21 +178,21 @@ $("#send").on("click", async () => {
             details
         );
     } catch (e) {
-        $("#msg-generic-error").addClass("open");
+        cssSelect("#msg-generic-error").addClass("open");
         return;
     }
 
     if (response === "ok") {
         localStorage.setItem(storageKeyLastReport, Date.now());
-        $("#msg-report-sent").addClass("open");
-        $("#main").addClass("hidden");
+        cssSelect("#msg-report-sent").addClass("open");
+        cssSelect("#main").addClass("hidden");
     } else {
         console.error(response);
-        $("#msg-generic-error").addClass("open");
+        cssSelect("#msg-generic-error").addClass("open");
     }
 });
 
-$(".popup-container button.float-right").on("click", function () {
+cssSelect(".popup-container button.float-right").on("click", function () {
     this.parentNode.parentNode.classList.remove("open");
 });
 
@@ -208,16 +208,16 @@ $(".popup-container button.float-right").on("click", function () {
 
         const now = Date.now();
         if (typeof lastReport === "number" && lastReport + rateLimit > now) {
-            $("#msg-rate-limited").addClass("open");
+            cssSelect("#msg-rate-limited").addClass("open");
         } else {
-            $("#main").rmClass("hidden");
+            cssSelect("#main").rmClass("hidden");
         }
     };
 
     if (/^\?\d{1,15}$/.test(location.search)) {
         chrome.tabs.get(parseInt(location.search.substring(1)), (tab) => {
             if (!chrome.runtime.lastError) {
-                $("#url").prop("value", tab.url);
+                cssSelect("#url").prop("value", tab.url);
             }
 
             init();
