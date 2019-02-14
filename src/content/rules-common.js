@@ -43,8 +43,8 @@
 
     const domCmpWhitelist = [
         // Local network
-        "localhost",
         "127.0.0.1",
+        "localhost",
 
         // Google
         "google.it.ao",
@@ -112,6 +112,7 @@
         "derstandard.at",
         "di.fm",
         "download.ipeenk.com",
+        "filmweb.pl",
         "imdb.com",
         "infostrow.pl",
         "jazzradio.com",

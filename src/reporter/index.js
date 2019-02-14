@@ -81,6 +81,7 @@ const knownGood = [
 
     // Fixed in regional filters
     "dn.se",
+    "filmweb.pl",
     "kwejk.pl",
     "onet.pl",
     "tvp.pl",
@@ -99,7 +100,6 @@ const knownBad = [
     "kissmanga.com",
     "maddertranslates.com",
     "twitch.tv",
-    "pokyun.tv",
 ];
 /**
  * Check if a domain matches one of the matchers.
