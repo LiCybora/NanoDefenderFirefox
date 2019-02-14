@@ -1406,7 +1406,7 @@ if (a.domCmp(["adz.bz", "mellow.link", "hop.bz", "mellowads.com", "url.vin", "cl
                 "VerifyLinkClick",
                 {
                     linkRef: val.linkRef(),
-                    linkClickRef: window.cssSelect("#LinkClickRef")[0].value,
+                    linkClickRef: window.$("#LinkClickRef")[0].value,
                     recaptchaResponse: val.recaptchaResponse(),
                 },
                 "Verify",
@@ -1448,7 +1448,7 @@ if (a.domCmp(["zap.in"])) {
                 "VerifyZapClick",
                 {
                     linkRef: val.linkRef(),
-                    linkClickRef: window.cssSelect("#LinkClickRef")[0].value,
+                    linkClickRef: window.$("#LinkClickRef")[0].value,
                     recaptchaResponse: val.recaptchaResponse(),
                 },
                 "Verify",
@@ -1567,8 +1567,8 @@ if (a.domCmp(["dasolo.co", "dasolo.me"])) {
             window.document.onmouseup = null;
             window.document.onselectstart = null;
             window.setTimeout(() => {
-                window.cssSelect("body").unbind("contextmenu");
-                window.cssSelect("#id").unbind("contextmenu");
+                window.$("body").unbind("contextmenu");
+                window.$("#id").unbind("contextmenu");
             }, 250);
         });
     });
@@ -2512,13 +2512,13 @@ if (a.domCmp(["identi.li"])) {
                 }
             }
             if (window.$) {
-                window.cssSelect("div #decrypt.myjdownloader").unbind("click").click(function () {
+                window.$("div #decrypt.myjdownloader").unbind("click").click(function () {
                     window._decrypt.fnID = "jdownloader";
                     window._decrypt.fnURL = this.getAttribute("href");
                     window._decrypt.objeto = null;
                     window._decrypt.open();
                 });
-                window.cssSelect("button.link-d").unbind("click").click(function () {
+                window.$("button.link-d").unbind("click").click(function () {
                     let d = this.dataset.link;
                     while (!d.includes("%")) {
                         d = window.atob(d);
@@ -2885,7 +2885,7 @@ if (a.domCmp(["player.radioloyalty.com"])) {
                 a.inject(() => {
                     "use strict";
                     window.setTimeout(() => {
-                        window.cssSelect("#videoPlayerModal").modal("hide");
+                        window.$("#videoPlayerModal").modal("hide");
                     }, 1000);
                     window.Object.defineProperty(window._mainView.player.player.attributes, "playingAd", {
                         configurable: false,
