@@ -38,9 +38,9 @@ if (a.debugMode) {
 
     // Force Twitch to show debug logs
     if (a.domCmp(["twitch.tv"], true)) {
-        a.readOnly("log", "window.console.log.bind(window.console)", "window.console");
-        a.readOnly("warn", "window.console.warn.bind(window.console)", "window.console");
-        a.readOnly("error", "window.console.error.bind(window.console)", "window.console");
+        a.readOnly("log", "window.nanoConsole.log.bind(window.nanoConsole)", "window.nanoConsole");
+        a.readOnly("warn", "window.nanoConsole.warn.bind(window.nanoConsole)", "window.nanoConsole");
+        a.readOnly("error", "window.nanoConsole.error.bind(window.nanoConsole)", "window.nanoConsole");
     }
 
     /*************************************************************************/

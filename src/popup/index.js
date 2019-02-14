@@ -42,6 +42,13 @@ const home = [
 {
     const manifest = chrome.runtime.getManifest();
     cssSelect(".title > p").text(manifest.name + " " + manifest.version);
+    // Check whether console is allowed
+    const request = browser.runtime.sendMessage({
+        cmd: "get status",
+    });
+    request.then((msg)=> {
+        cssSelect("#toggleConsole").prop("checked", msg.status); 
+    }, (e) => console.log(e));
 }
 
 /*****************************************************************************/
@@ -59,8 +66,18 @@ chrome.tabs.query({
 /*****************************************************************************/
 
 cssSelect(".wrapper").on("click", function () {
-    const url = home[this.dataset.home] + this.dataset.href;
-    chrome.tabs.create({ url: url });
+    if (this.dataset.home !== '0') {
+        const url = home[this.dataset.home] + this.dataset.href;
+        chrome.tabs.create({ url: url });
+    }
 });
 
+cssSelect("#toggleConsole").on("click", function() {
+    browser.runtime.sendMessage({
+        "cmd": "toggle console",
+        "status": cssSelect("#toggleConsole").prop("checked"),
+    });
+})
+
 /*****************************************************************************/
+

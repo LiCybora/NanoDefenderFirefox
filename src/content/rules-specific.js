@@ -2708,7 +2708,7 @@ if (a.domCmp(["wowtoken.info"])) {
             }, (data) => {
                 a.inject(data.replace(re, "true;"), true);
             }, () => {
-                console.error("[Nano] Failed :: Patch Main Script");
+                window.nanoConsole.error("[Nano] Failed :: Patch Main Script");
             });
             script.remove();
         }

@@ -175,27 +175,27 @@
 
     if (a.domCmp(domCmpWhitelist, true) || a.domInc(domIncWhitelist, true)) {
 
-        console.log("[Nano] Excluded :: All Generically Applied Solutions");
+        window.nanoConsole.log("[Nano] Excluded :: All Generically Applied Solutions");
 
     } else {
 
         if (a.domCmp([], true))
-            console.log("[Nano] Excluded :: Common Generic Solutions");
+            window.nanoConsole.log("[Nano] Excluded :: Common Generic Solutions");
         else
             a.generic();
 
         if (a.domCmp([], true))
-            console.log("[Nano] Excluded :: Adfly Bypasser");
+            window.nanoConsole.log("[Nano] Excluded :: Adfly Bypasser");
         else
             a.generic.Adfly();
 
         if (a.domCmp([], true))
-            console.log("[Nano] Excluded :: app_vars Defuser");
+            window.nanoConsole.log("[Nano] Excluded :: app_vars Defuser");
         else
             a.generic.app_vars();
 
         if (a.domCmp([], true))
-            console.log("[Nano] Excluded :: NoAdBlock Defuser");
+            window.nanoConsole.log("[Nano] Excluded :: NoAdBlock Defuser");
         else
             a.generic.NoAdBlock();
 
@@ -231,7 +231,7 @@
     if (a.domCmp([
     ], true)) {
         a.uBOExtraExcluded = true;
-        console.log("[Nano] Excluded :: uBO-Extra");
+        window.nanoConsole.log("[Nano] Excluded :: uBO-Extra");
     }
 
     /*************************************************************************/

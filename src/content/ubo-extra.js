@@ -110,7 +110,7 @@ if ( !abort ) {
                     Math.floor(Math.random() * 982451653 + 982451653).toString(36),
             targets = [
                 'atob',
-                'console.error',
+                'window.nanoConsole.error',
                 'INSTART',
                 'INSTART_TARGET_NAME',
                 'navigator.userAgent',
@@ -492,14 +492,14 @@ if ( !abort ) {
 
     var scriptlet = function() {
         var realConsole = console,
-            realLog = console.log;
-        console.log = function () {
+            realLog = window.nanoConsole.log;
+        window.nanoConsole.log = function () {
             for ( var i = 0; i < arguments.length; i++ ) {
                 if ( arguments[i] instanceof HTMLElement ) { return; }
             }
             return realLog.apply(realConsole, arguments);
         }.bind(console);
-        Object.defineProperty(console.log, 'name', { value: 'log' });
+        Object.defineProperty(window.nanoConsole.log, 'name', { value: 'log' });
     };
 
     scriptlets.push({

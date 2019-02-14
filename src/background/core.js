@@ -32,6 +32,9 @@
  */
 a.init = () => {
 
+    // Default console is ON.
+    a.register(a.allowConsole);
+
     /*************************************************************************/
 
     chrome.runtime.onMessage.addListener((msg, sender, res) => {
@@ -41,6 +44,22 @@ a.init = () => {
             typeof res !== "function"
         ) {
             return;
+        }
+
+
+        if (typeof msg.cmd === "string") {
+            // 2 command for handling console, no tabs involved
+            switch (msg.cmd) {
+                case "toggle console":
+                    a.allowConsole = msg.status;
+                    a.register(a.allowConsole);
+                    return;
+                case "get status":
+                    res({"status": a.allowConsole});
+                    return;
+                default:
+
+            }
         }
 
         if (typeof msg.cmd !== "string" || typeof sender.tab !== "object")
@@ -220,6 +239,46 @@ a.init = () => {
 
     /*************************************************************************/
 
+};
+
+/*****************************************************************************/
+
+/**
+ * Whether console message is activated (default: true)
+ * @var {boolean}
+ */
+a.allowConsole = true;
+
+/**
+ * Record the registered content script (default: true)
+ * @var {Object}
+ */
+a.registered = null;
+
+/**
+ * Register content script
+ * @function
+ * @param {boolean} consoleOn - whether to turn on or off the console.
+ */
+ a.register = async (consoleOn) => {
+    let scripts = [
+        {"file": `content/${a.allowConsole ? "" : "un"}console.js`},
+        {"file": "content/rules-common.js"},
+        {"file": "content/rules-specific.js"},
+        {"file": "content/rules-sticky.js"},
+        {"file": "content/debug.js"}
+    ];
+    if (a.registered) a.registered.unregister();
+    a.registered = await browser.contentScripts.register({
+        "allFrames": true,
+        "js": scripts,
+        "matchAboutBlank": true,
+        "matches": [
+            "http://*/*",
+            "https://*/*"
+        ],
+        "runAt": "document_start"
+    });
 };
 
 /*****************************************************************************/
@@ -499,8 +558,8 @@ a.xhr = (details, onload, onerror) => {
     ) {
         return false;
     }
-
-    console.log("[Nano] Cross Origin Request ::", details.url);
+    if (a.allowConsole)
+        console.log("[Nano] Cross Origin Request ::", details.url);
 
     let req = new XMLHttpRequest();
 
