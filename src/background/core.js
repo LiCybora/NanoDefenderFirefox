@@ -266,7 +266,16 @@ a.registered = null;
         {"file": "content/rules-common.js"},
         {"file": "content/rules-specific.js"},
         {"file": "content/rules-sticky.js"},
-        {"file": "content/debug.js"}
+        {"file": "content/debug.js"},
+        {"code": 
+            `"use strict";
+            {
+                a.inject(() => {
+                    "use strict";
+                    delete window.nanoConsole;
+                });
+            }`
+        }
     ];
     if (a.registered) a.registered.unregister();
     a.registered = await browser.contentScripts.register({

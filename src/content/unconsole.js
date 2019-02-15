@@ -13,6 +13,8 @@ a.inject(() => {
     window.nanoConsole.log = () => { };
 	window.nanoConsole.warn = () => { };
 	window.nanoConsole.error = () => { };
+	window.nanoConsole.trace = () => { };
+
 });
 
 
