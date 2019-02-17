@@ -1345,7 +1345,7 @@ a.generic.FuckAdBlock = (constructorName, instanceName) => {
 
             this._callbacks = [];
             window.addEventListener("load", () => {
-                this.emitEvent();
+                window.setTimeout(this.emitEvent, 1);
             });
 
             //v3 methods
