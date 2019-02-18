@@ -1339,13 +1339,14 @@ a.generic.FuckAdBlock = (constructorName, instanceName) => {
         "use strict";
         const errMsg = "[Nano] Generic Solution Triggered :: FuckAdBlock";
         const error = window.console.error.bind(window.console);
+        const timer = window.setTimeout.bind(window);
         const patchedFuckAdBlock = function () {
             // Based on FuckAdBlock
             // License: https://github.com/sitexw/FuckAdBlock/blob/master/LICENSE
 
             this._callbacks = [];
             window.addEventListener("load", () => {
-                window.setTimeout(this.emitEvent, 1);
+                timer(this.emitEvent, 1);
             });
 
             //v3 methods
