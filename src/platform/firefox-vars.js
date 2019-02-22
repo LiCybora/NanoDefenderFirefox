@@ -7,4 +7,4 @@
  * The extension ID of Nano Adblocker.
  * @const {string}
  */
-a.NanoAdblockerExtensionID = "{0f929014-5ed2-4527-8b8d-86a9c889b129}";
+a.NanoAdblockerExtensionID = "{af881826-e0f9-4b97-898a-a416dc473545}";
