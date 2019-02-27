@@ -79,9 +79,32 @@ if (
 }
 
 // https://github.com/NanoMeow/QuickReports/issues/13
-if (a.domCmp(["linkneverdie.com"])) {
+if (a.domCmp([
+    "linkneverdie.com",
+])) {
     a.ready(() => {
         cssSelect("a").filter("#adsqc").remove();
+    });
+}
+
+// https://github.com/NanoMeow/QuickReports/issues/528
+// https://github.com/uBlockOrigin/uAssets/issues/4293
+if (a.domCmp([
+    "sports.qq.com",
+    "v.qq.com",
+])) {
+    a.replaceXHR(() => {
+        if (url && url.includes("://vd.l.qq.com/proxyhttp")) {
+            this.addEventListener("readystatechange", () => {
+                if (this.readyState === 4) {
+                    try {
+                        let payload = window.JSON.parse(this.responseText);
+                        delete payload.ad;
+                        replace(this, window.JSON.stringify(payload));
+                    } catch (err) { }
+                }
+            });
+        }
     });
 }
 

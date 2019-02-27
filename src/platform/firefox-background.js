@@ -89,7 +89,6 @@
                 }
                 filter.write(encoder.encode(payload));
                 filter.disconnect();
-                return;
             };
         },
         [
