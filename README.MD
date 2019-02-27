@@ -17,9 +17,9 @@ to download and install.
 
 ### [Get it here (Signed, Unlisted)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
-### [Get it on AMO (Experimental)](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
+### [Get it on AMO](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
 
-Note: The version on AMO is still experimental. **DO NOT install both version.**
+Note: **DO NOT install both version.**
 
 ### About Pre-quantum fork
 
