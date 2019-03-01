@@ -78,6 +78,11 @@ if (
     });
 }
 
+// https://github.com/uBlockOrigin/uAssets/issues/4290
+if (a.domCmp(["gamer.com.tw",])) {
+    a.timewarp('setInterval');
+}
+
 // https://github.com/NanoMeow/QuickReports/issues/13
 if (a.domCmp([
     "linkneverdie.com",
