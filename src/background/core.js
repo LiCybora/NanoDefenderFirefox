@@ -476,9 +476,13 @@ a.staticServer = (urls, types, data, domList, isMatch = true) => {
  * @param {Array.<string>} [domList=undefined] - The domains list, omit to
  * match all domains.
  * @param {boolean} [isMatch=true] - Whether the domains list is a match list.
+ * @param {String} [onWhat="onBeforeRequest"] - function name of webRequest
  */
-a.dynamicServer = (urls, types, server, domList, isMatch = true) => {
-    chrome.webRequest.onBeforeRequest.addListener(
+a.dynamicServer = (urls, types, server, domList, isMatch = true, onWhat="onBeforeRequest") => {
+    let blockRes = ["blocking"];
+    if (onWhat === "onBeforeSendHeaders") blockRes.push("requestHeaders");
+    if (onWhat === "onHeadersReceived") blockRes.push("responseHeaders");
+    chrome.webRequest[onWhat].addListener(
         (details) => {
             const url = a.getTabURL(details.tabId, details.frameId);
             if (!domList || a.domCmp(url, domList, isMatch)) {
@@ -502,9 +506,7 @@ a.dynamicServer = (urls, types, server, domList, isMatch = true) => {
             urls: urls,
             types: types,
         },
-        [
-            "blocking",
-        ],
+        blockRes,
     );
 };
 
