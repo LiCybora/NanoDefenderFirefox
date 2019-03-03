@@ -27,6 +27,8 @@
 // --------------------------------------------------------------------------------------------- //
 
 // https://github.com/NanoMeow/QuickReports/issues/352
+// https://github.com/uBlockOrigin/uAssets/issues/4290
+// https://github.com/jspenguin2017/uBlockProtector/pull/1045
 if (a.domCmp([
     "gamer.com.tw",
 ])) {
@@ -136,8 +138,8 @@ if (a.domCmp([
     });
 }
 
-// https://github.com/NanoMeow/QuickReports/issues/528
 // https://github.com/uBlockOrigin/uAssets/issues/4293
+// https://github.com/NanoMeow/QuickReports/issues/528
 if (a.domCmp([
     "sports.qq.com",
     "v.qq.com",
@@ -1071,9 +1073,6 @@ if (a.domCmp(["5278bbs.com"])) {
 if (a.domCmp(["thesimsresource.com"])) {
     a.readOnly("gadsize", true);
     a.readOnly("iHaveLoadedAds", true);
-}
-if (a.domCmp(["yellowbridge.com"])) {
-    a.readOnly("finalizePage", () => { });
 }
 if (a.domCmp(["kissanime.com", "kissanime.to", "kissanime.ru"])) {
     a.css("iframe[id^='adsIfrme'], .divCloseBut { display:none; }");
@@ -3102,10 +3101,10 @@ if (a.domCmp([
     a.css(".adblocker-message { display: none; }");
 }
 
+// https://github.com/MajkiIT/polish-ads-filter/issues/12101
 if (a.domCmp([
     "dobreprogramy.pl",
 ])) {
-    // https://github.com/MajkiIT/polish-ads-filter/issues/12101
     a.css("[hidden] { display: none; }");
     a.css('div[class*="tag-"].home-section > .span-8 { width: 100%; margin-right: 15px; }');
 }
