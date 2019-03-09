@@ -1561,7 +1561,7 @@ a.generic.app_vars = () => {
                 },
             });
         } catch (err) {
-            window.console.error("[Nano] Failed :: app_vars Defuser");
+            window.nanoConsole.error("[Nano] Failed :: app_vars Defuser");
         }
     });
 };
