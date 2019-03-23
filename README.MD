@@ -12,19 +12,18 @@ For issues found on Firefox port, it is recommended to report here.
 
 ## Installation
 
-You need Firefox version 60 or above to install this extension. Click .xpi file
-to download and install.
+### [Get it here (for Waterfox/Firefox 56 or above)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
-### [Get it here (Signed, Unlisted)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+### [Get it on AMO (Recommend, ONLY for Firefox 60 or above)](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
 
-### [Get it on AMO](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
-
-Note: **DO NOT install both version.**
+**IMPORTANT: DO NOT install both versions.**
 
 ### About Pre-quantum fork
 
-**No official support for pre-quantum fork (such as Waterfox, Palemoon).** See 
-[this](https://github.com/LiCybora/NanoDefenderFirefox/issues/30#issuecomment-405822737).
+ONLY Waterfox 56, or forks with equivalent gecko version and supporting WebExtension API can install via the first link.
+However, some functions are lacking (such as console switch/response data filtering).
+
+**No support for other pre-quantum forks without WebExtension API (such as Basilisk, Palemoon).**
 
 ## Building
 
