@@ -21,7 +21,7 @@ For issues found on Firefox port, it is recommended to report here.
 ### About Pre-quantum fork
 
 ONLY Waterfox 56, or forks with equivalent gecko version and supporting WebExtension API can install via the first link.
-However, some functions are lacking (such as console switch/response data filtering).
+However, some functions are lacking (such as console switch and response data filtering).
 
 **No support for other pre-quantum forks without WebExtension API (such as Basilisk, Palemoon).**
 
