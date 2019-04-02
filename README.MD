@@ -12,11 +12,15 @@ For issues found on Firefox port, it is recommended to report here.
 
 ## Installation
 
+Nano Defender can only protect either [Nano Adblocker](https://github.com/LiCybora/NanoCoreFirefox) or [uBlock Origin](https://github.com/gorhill/ublock), and will prioritize Nano Adblocker.
+
 ### [Get it here (for Waterfox/Firefox 56 or above)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
 ### [Get it on AMO (Recommend, ONLY for Firefox 60 or above)](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
 
 **IMPORTANT: DO NOT install both versions.**
+
+If you are using uBlock Origin, there are a few [extra installation steps](https://jspenguin2017.github.io/uBlockProtector/#extra-installation-steps-for-ublock-origin) to follow.
 
 ### About Pre-quantum fork
 
