@@ -20,7 +20,7 @@ Nano Defender can only protect either [Nano Adblocker](https://github.com/LiCybo
 
 **IMPORTANT: DO NOT install both versions.**
 
-If you are using uBlock Origin, there are a few [extra installation steps](https://jspenguin2017.github.io/uBlockProtector/#extra-installation-steps-for-ublock-origin) to follow.
+Note: If you are using uBlock Origin, there are a few [extra installation steps](https://jspenguin2017.github.io/uBlockProtector/#extra-installation-steps-for-ublock-origin) to follow.
 
 ### About Pre-quantum fork
 
