@@ -233,13 +233,10 @@
         else
             a.generic.app_vars();
 
-        /*
-        // NoAdBlock is removed from Cloudflare, disable rule for now
         if (a.domCmp([], true))
-            window.nanoConsole.log("[Nano] Excluded :: NoAdBlock Defuser");
+            window.nanoConsole.log("[Nano] Excluded :: Cloudflare Apps Defuser");
         else
-            a.generic.NoAdBlock();
-        */
+            a.generic.CloudflareApps();
 
     }
 
@@ -270,8 +267,7 @@
 
     // ------------------------------------------------------------------------------------------------------------- //
 
-    if (a.domCmp([
-    ], true)) {
+    if (a.domCmp([], true)) {
         a.uBOExtraExcluded = true;
         window.nanoConsole.log("[Nano] Excluded :: uBO-Extra");
     }
