@@ -1,197 +1,166 @@
-/**
- * Core library for content rules.
- */
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// Nano Defender - An anti-adblock defuser
+// Copyright (C) 2016-2019  Nano Defender contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// Core library for content rules
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
 "use strict";
 
+// ----------------------------------------------------------------------------------------------------------------- //
 
-/**
- * Initialization.
- * @function
- */
+a.uBOExtraExcluded = false;
+
+a.isTopFrame = (() => {
+    // This can throw
+    try {
+        return window.self === window.top;
+    } catch (err) {
+        return false;
+    }
+})();
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
 a.init = () => {
     console.log(`[Nano] Nano Defender Activated :: ${document.domain}`);
 };
-/**
- * Whether uBO-Extra should not run.
- * @var {boolean}
- */
-a.uBOExtraExcluded = false;
 
+// ----------------------------------------------------------------------------------------------------------------- //
 
-/**
- * Escape double quotes in a string.
- * @function
- * @param {string} str - The string to escape.
- * @return {string} The escaped string.
- */
 a.strEscape = (() => {
     const re = /"/g;
     return (str) => str.replace(re, `\\"`);
 })();
-/**
- * Whether this frame is top frame.
- * @const {boolean}
- */
-a.isTopFrame = (() => {
-    try {
-        return window.self === window.top;
-    } catch (err) {
-        // Top frame not accessible due to security policy
-        return false;
-    }
-})();
-/**
- * Shortcut for addEventListener(...args).
- * @const {Function}
- */
-a.on = (...args) => { addEventListener(...args); };
-/**
- * Shortcut for addEventListener("DOMContentLoaded", ...args).
- * @const {Function}
- */
-a.ready = (...args) => { addEventListener("DOMContentLoaded", ...args); }
-/**
- * Run a function on document-start, document-end, and document-idle.
- * @function
- * @param {Special} ...args - ...args in addEventListener("...", ...args).
- */
-a.always = (...args) => {
-    args[0]();
-    a.on("DOMContentLoaded", ...args);
-    a.on("load", ...args);
-};
-/**
- * Write an error message to console.
- * @function
- * @param {string} [name=undefined] - The name of the adblocker detector.
- */
+
 a.err = (name) => {
-    if (name) {
+    if (name)
         console.error(`[Nano] Generic Solution Triggered :: ${name}`);
-    } else {
+    else
         console.error("[Nano] Specific Solution Triggered");
-    }
 };
-/**
- * Send a highly privileged XMLHttpRequest, it goes though Cross Origin
- * Resource Sharing policies as well as adblocker filtering.
- * @function
- * @param {Object} details - Details about this request.
- ** @param {string} method - The method of the request, usually "GET" or "POST".
- ** @param {string} url - The URL of the request.
- ** @param {Object|undefined} [headers=undefined] - The headers of the request.
- ** @param {string|null} [payload=null] - The payload of the request.
- * @param {Function} onload - The load event handler.
- ** @param {string} response - The response text.
- * @param {Function} onerror - The error event handler.
- */
-a.request = (details, onload, onerror) => {
-    chrome.runtime.sendMessage({
-        cmd: "xhr",
-        details: details,
-    }, (response) => {
-        if (response === null) {
-            onerror();
-        } else {
-            onload(response);
-        }
-    });
-};
-/**
- * Check if current domain ends with one of the domains in the list.
- * "example.com" will match domains that matches /(^|.*\.)example\.com$/.
- * @function
- * @param {Array.<string>} domList - The list of domains to compare.
- * @param {boolean} [noErr=false] - Set to true to prevent showing error
- ** message.
- * @return {boolean} True if current domain is in the list, false otherwise.
- */
-a.domCmp = (domList, noErr) => {
+
+a.domCmp = (domList, noErr = false) => {
     for (let i = 0; i < domList.length; i++) {
         if (
             document.domain.endsWith(domList[i]) &&
             (
                 document.domain.length === domList[i].length ||
-                document.domain.charAt(document.domain.length - domList[i].length - 1) === '.'
+                document.domain.charAt(document.domain.length - domList[i].length - 1) === "."
             )
         ) {
-            if (!noErr) {
+            if (!noErr)
                 a.err();
-            }
             return true;
         }
     }
     return false;
 };
-/**
- * Check if current domain includes one of the strings that is in the list.
- * "example" will match domains that matches /(^|.*\.)example\.[^\.]*$/.
- * "git.example" will match domains that matches /(^|.*\.)git\.example\.[^\.]*$/.
- * @function
- * @param {Array.<string>} domList - The list of strings to compare.
- * @param {boolean} [noErr=false] - Set to true to prevent showing error
- ** message.
- * @return {boolean} True if current domain is in the list, false otherwise.
- */
-a.domInc = (domList, noErr) => {
+
+a.domInc = (domList, noErr = false) => {
     for (let i = 0; i < domList.length; i++) {
-        let index = document.domain.lastIndexOf(domList[i] + ".");
-        if (index > 0 && document.domain.charAt(index - 1) !== '.') {
+        const index = document.domain.lastIndexOf(domList[i] + ".");
+        if (index > 0 && document.domain.charAt(index - 1) !== ".") {
             continue;
         }
         if (index > -1) {
             if (!document.domain.substring(index + domList[i].length + 1).includes(".")) {
-                if (!noErr) {
+                if (!noErr)
                     a.err();
-                }
                 return true;
             }
         }
     }
     return false;
 };
-/**
- * Match methods.
- * @const {Enumeration}
- */
+
+// http://stackoverflow.com/questions/6566456/how-to-serialize-an-object-into-a-list-of-parameters
+a.serialize = (obj) => {
+    let str = "";
+    for (let key in obj) {
+        if (str !== "")
+            str += "&";
+        str += `${key}=${encodeURIComponent(obj[key])}`;
+    }
+    return str;
+};
+
+a.uid = (() => {
+    let counter = 0;
+    return () => {
+        const chars = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let str = "";
+        for (let i = 0; i < 10; i++)
+            str += chars.charAt(Math.floor(Math.random() * chars.length));
+        return str + (counter++).toString();
+    };
+})();
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+a.on = (...args) => {
+    addEventListener(...args);
+};
+
+a.ready = (...args) => {
+    addEventListener("DOMContentLoaded", ...args);
+};
+
+a.always = (...args) => {
+    args[0]();
+    a.on("DOMContentLoaded", ...args);
+    a.on("load", ...args);
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// Send privileged XMLHttpRequest, ignores CORS and adblocker filtering
+//
+// Details:
+//
+// method   : string - Method of the request, usually "GET" or "POST"
+// url      : string - URL of the request
+// headers? : Object - Headers of the request
+// payload? : string - Payload of the request
+a.request = (details, onload, onerror) => {
+    chrome.runtime.sendMessage({
+        cmd: "xhr",
+        details: details,
+    }, (response) => {
+        if (response === null)
+            onerror();
+        else
+            onload(response);
+    });
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
 a.matchMethod = {
-    /**
-     * Match all.
-     * @param {undefined|null} [filter=undefined] - The filter.
-     */
     matchAll: 0,
-    /**
-     * Partial string match. Result in match if one of the arguments contains
-     * the filter.
-     * @param {string} filter - The filter.
-     */
     string: 1,
-    /**
-     * Exact string match. Result in match if one of the arguments is exactly
-     * the filter.
-     * @param {string} filter - The filter.
-     */
     stringExact: 2,
-    /**
-     * Regular expression based matching, filter.test() will be used to apply
-     * matching.
-     * @param {RegExp} filter - The filter.
-     */
     RegExp: 3,
-    /**
-     * Callback based matching, the callback function will lose its scope.
-     * @param {Function} filter - The callback function.
-     */
     callback: 4,
 };
-/**
- * Get a matcher function, the filter will be "hard coded" into it.
- * @function
- * @param {Enumeration} method - The method to use.
- * @param {undefined|null|string|RegExp|Function} filter - An appropriate
- ** filter.
- * @return {string} A matcher function.
- */
+
 a.getMatcher = (method, filter) => {
     switch (method) {
         case a.matchMethod.string:
@@ -232,47 +201,34 @@ a.getMatcher = (method, filter) => {
             return `() => true`;
     }
 };
-/**
- * Inject a standalone script to the page.
- * @function
- * @param {string|Function} payload - The script to inject.
- * @param {boolean} [isReady=false] - Set this to true if the payload does not
- ** need a execution wrapper.
- */
-a.inject = (payload, isReady) => {
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+a.inject = (payload, isReady = false) => {
     let s = document.createElement("script");
     s.textContent = isReady ? payload : `(${payload})();`;
+
     try {
         document.documentElement.prepend(s);
         s.remove();
     } catch (err) {
         console.error("[Nano] Failed :: Inject Standalone Script");
+
         //@pragma-if-debug
-        if (a.debugMode) {
+        if (a.debugMode)
             console.log(s.textContent);
-        }
         //@pragma-end-if
     }
 };
-/**
- * Similar to a.inject(), but the injected code is enclosed in a wrapper that
- * have some rumtime functions.
- * Must be called on document-start to ensure security.
- * @function
- * @param {string|Function} payload - The script to inject.
- * @param {boolean} [isReady=false] - Set this to true if the payload does not
- ** need a execution wrapper.
- * @runtime dispatchEvent, CustomEvent
- ** The real dispatchEvent and CustomEvent, useful when you need custom
- ** messaging.
- * @runtime execute
- ** Run code ignoring Content Security Policy.
- ** @function
- ** @param {string} code - The code to execute, must already have execution
- *** wrapper if it needs one. The execution will be done on the next tick,
- *** which makes it not truly synchronous.
- */
-a.injectWithRuntime = (payload, isReady) => {
+
+// Must be called on document-start
+//
+// Runtime:
+//
+// CustomEvent   - The real CustomEvent constructor
+// dispatchEvent - The real dispatchEvent function
+// execute       - Execute code, ignores Content Security Policy
+a.injectWithRuntime = (payload, isReady = false) => {
     const magic = a.uid();
     addEventListener(magic, (e) => {
         a.inject(e.detail, true);
@@ -292,66 +248,32 @@ a.injectWithRuntime = (payload, isReady) => {
 
     let s = document.createElement("script");
     s.textContent = runtime;
+
     try {
         document.documentElement.prepend(s);
         s.remove();
     } catch (err) {
         console.error("[Nano] Failed :: Inject Script With Runtime");
+
         //@pragma-if-debug
-        if (a.debugMode) {
+        if (a.debugMode)
             console.log(s.textContent);
-        }
         //@pragma-end-if
     }
 };
-/**
- * Serialize an object into GET request parameters.
- * Source: http://stackoverflow.com/questions/6566456/how-to-serialize-an-object-into-a-list-of-parameters
- * @function
- * @param {Object} obj - The object to serialize, can be at most 1 level deep.
- * @return {string} The serialized string.
- */
-a.serialize = (obj) => {
-    let str = "";
-    for (let key in obj) {
-        if (str !== "") {
-            str += "&";
-        }
-        str += `${key}=${encodeURIComponent(obj[key])}`;
-    }
-    return str;
-};
-/**
- * Returns an unique ID which is also a valid variable name.
- * @function
- * @return {string} The unique ID.
- */
-a.uid = (() => {
-    let counter = 0;
-    return () => {
-        const chars = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        let str = "";
-        for (let i = 0; i < 10; i++) {
-            str += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return str + (counter++).toString();
-    };
-})();
-/**
- * Set up DOM insert observer.
- * @function
- * @param {Function} handler - The mutation handler.
- ** @param {HTMLElement} insertedNode - The inserted node.
- ** @param {HTMLElement} target - The parent of the inserted node.
- ** @param {MutationObserver} e - The observer object, call disconnect on it to
- *** stop observing.
- */
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// Callback arguments:
+//
+// node   - Inserted node
+// target - Parent node
+// e      - Event object, can be used to disconnect the observer
 a.onInsert = (handler) => {
     const observer = new MutationObserver((mutations) => {
         for (let i = 0; i < mutations.length; i++) {
-            for (let j = 0; j < mutations[i].addedNodes.length; j++) {
+            for (let j = 0; j < mutations[i].addedNodes.length; j++)
                 handler(mutations[i].addedNodes[j], mutations[i].target, observer);
-            }
         }
     });
     observer.observe(document, {
@@ -359,21 +281,12 @@ a.onInsert = (handler) => {
         subtree: true,
     });
 };
-/**
- * Set up DOM remove observer.
- * @function
- * @param {Function} handler - The mutation handler.
- ** @param {HTMLElement} removedNode - The removed node.
- ** @param {HTMLElement} target - The parent of the removed node.
- ** @param {MutationObserver} e - The observer object, call disconnect on it
- *** to stop observing.
- */
+
 a.onRemove = (handler) => {
     const observer = new MutationObserver((mutations) => {
         for (let i = 0; i < mutations.length; i++) {
-            for (let j = 0; j < mutations[i].removedNodes.length; j++) {
+            for (let j = 0; j < mutations[i].removedNodes.length; j++)
                 handler(mutations[i].removedNodes[j], mutations[i].target, observer);
-            }
         }
     });
     observer.observe(document, {
@@ -381,38 +294,20 @@ a.onRemove = (handler) => {
         subtree: true,
     });
 };
-/**
- * Set up script execution observer.
- * Can only interfere execution of scripts hard coded into the main document.
- * @function
- * @param {Function} handler - The event handler.
- ** @param {HTMLScriptElement} script - The script that is about to be executed,
- *** it may not have its final textContent.
- ** @param {HTMLElement} parent - The parent node of this script.
- ** @param {MutationObserver} e - The observer object, call disconnect on it to
- *** stop observing.
- */
+
 a.beforeScript = (handler) => {
     a.onInsert((node, target, observer) => {
-        if (node.tagName === "SCRIPT") {
+        if (node.tagName === "SCRIPT")
             handler(node, target, observer);
-        }
     });
 };
 
+// ----------------------------------------------------------------------------------------------------------------- //
 
-/**
- * Inject CSS, "!important" will be added automatically.
- * @function
- * @param {string} code - The CSS to inject.
- * @param {boolean} [stealthy=false] - Whether the style should only be
- ** injected from background page only, this will not carete a style element,
- ** but the injected style have a lower priority. The injection from background
- ** is asynchronous.
- */
+// When stealthy is true, style is only injected from the background page
 a.css = (() => {
     const reMatcher = /;/g;
-    return (code, stealthy) => {
+    return (code, stealthy = false) => {
         const payload = code.replace(reMatcher, " !important;");
         chrome.runtime.sendMessage({
             cmd: "inject css",
@@ -425,18 +320,11 @@ a.css = (() => {
         }
     };
 })();
-/**
- * Add a bait element, this sometimes has a side effect that adds an empty bar
- * on top of the page.
- * Sometimes the height of the bait element is checked, so I cannot make it 0
- * height.
- * @function
- * @param {string} type - The type of the element, example: div
- * @param {string} identifier - The class or id, examples:
- ** Class: .test
- ** ID: #test
- * @param {boolean} [hidden=false] - Whether the element should be hidden.
- */
+
+// Identifier:
+//
+// Class : .test
+// ID    : #test
 a.bait = (type, identifier, hidden) => {
     let elem = document.createElement(type);
     switch (identifier.charAt(0)) {
@@ -447,75 +335,14 @@ a.bait = (type, identifier, hidden) => {
             elem.className = identifier.substring(1);
             break;
     }
-    if (hidden) {
+    if (hidden)
         elem.style.display = "none";
-    }
     elem.innerHTML = "<br>";
     document.documentElement.prepend(elem);
 };
-/**
- * Filter a function, should be called on document-start.
- * @function
- * @param {string} name - The name of the function.
- * @param {Enumeration} [method=a.matchMethod.matchAll] - An option from
- ** a.matchMethods, omit or pass null defaults to match all.
- * @param {Many} filter - The filter to apply, this must be appropriate for the
- ** method.
- * @param {string} [parent="window"] - The name of the parent object, use "."
- ** or bracket notation to separate layers. The parent must exist.
- */
-a.filter = (name, method, filter, parent = "window") => {
-    name = a.strEscape(name);
-    const strParent = a.strEscape(parent);
-    a.inject(`(() => {
-        "use strict";
-        const matcher = ${a.getMatcher(method, filter)};
 
-        const log = window.console.log.bind(window.console);
-        const warn = window.console.warn.bind(window.console);
-        const error = window.console.error.bind(window.console);
-
-        let parent, original;
-        const newFunc = (...args) => {
-            //@pragma-if-debug
-            if (${a.debugMode}) {
-                warn("[Nano] Filtered Function Called :: ${strParent}.${name}");
-                for (let i = 0; i < args.length; i++) {
-                    log(String(args[i]));
-                }
-            }
-            //@pragma-end-if
-
-            if (matcher(args)) {
-                error("[Nano] Blocked :: ${strParent}.${name}");
-            } else {
-                log("[Nano] Allowed :: ${strParent}.${name}");
-                return original.apply(parent, args);
-            }
-        };
-
-        try {
-            parent = ${parent};
-            original = ${parent}["${name}"];
-            ${parent}["${name}"] = newFunc;
-            log("[Nano] Filter Activated :: ${strParent}.${name}");
-        } catch (err) {
-            error("[Nano] Failed :: Filter On ${strParent}.${name}");
-        }
-    })();`, true);
-};
-/**
- * Filter assignment of innerHTML, innerText, or textContent. Should be called
- * on document-start.
- * @function
- * @param {string} name - The name of the property to filter, can be
- ** "innerHTML", "innerText", or "textContent".
- * @param {Function} filter - The filter function. Use closure and self
- ** execution if you need to initialize.
- ** @param {HTMLElement} elem - The target element.
- ** @param {string} val - The value that is set.
- ** @return {boolean} True to block the assignment, false to allow.
- */
+// Name   : One of "innerHTML", "innerText", "textContent"
+// Filter : Filtering function (different from above)
 a.antiCollapse = (name, filter) => {
     let parent;
     switch (name) {
@@ -575,19 +402,54 @@ a.antiCollapse = (name, filter) => {
         }
     })();`, true);
 };
-/**
- * Change the execution delay for setTimeout or setInterval, should be called
- * on document-start.
- * @function
- * @param {string} timer - The name of the timer to patch, can be "setTimeout"
- ** or "setInterval".
- * @param {Enumeration} [method=method=a.matchMethod.matchAll] - An option from
- ** a.matchMethods, omit or pass null defaults to match all.
- * @param {Many} filter - The filter to apply, this must be appropriate for the
- ** method.
- * @param {float} [ratio=0.02] - The boost ratio, between 0 and 1 for speed up,
- ** larger than 1 for slow down, defaults to speed up 50 times.
- */
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// Name           : Name of the function to filter
+// Method, Filter : See a.getMatcher
+// Parent         : Parent object, use "." to separate levels
+a.filter = (name, method, filter, parent = "window") => {
+    name = a.strEscape(name);
+    const strParent = a.strEscape(parent);
+    a.inject(`(() => {
+        "use strict";
+        const matcher = ${a.getMatcher(method, filter)};
+
+        const log = window.console.log.bind(window.console);
+        const warn = window.console.warn.bind(window.console);
+        const error = window.console.error.bind(window.console);
+
+        let parent, original;
+        const newFunc = (...args) => {
+            //@pragma-if-debug
+            if (${a.debugMode}) {
+                warn("[Nano] Filtered Function Called :: ${strParent}.${name}");
+                for (let i = 0; i < args.length; i++) {
+                    log(String(args[i]));
+                }
+            }
+            //@pragma-end-if
+
+            if (matcher(args)) {
+                error("[Nano] Blocked :: ${strParent}.${name}");
+            } else {
+                log("[Nano] Allowed :: ${strParent}.${name}");
+                return original.apply(parent, args);
+            }
+        };
+
+        try {
+            parent = ${parent};
+            original = ${parent}["${name}"];
+            ${parent}["${name}"] = newFunc;
+            log("[Nano] Filter Activated :: ${strParent}.${name}");
+        } catch (err) {
+            error("[Nano] Failed :: Filter On ${strParent}.${name}");
+        }
+    })();`, true);
+};
+
+// Timer : One of "setTimeout", "setInterval"
 a.timewarp = (timer, method, filter, ratio = 0.02) => {
     a.inject(`(() => {
         "use strict";
@@ -626,17 +488,7 @@ a.timewarp = (timer, method, filter, ratio = 0.02) => {
         }
     })();`, true);
 };
-/**
- * Defines a read-only property, should be called on document-start.
- * May not be able to lock the property's own properties.
- * @function
- * @param {string} name - The name of the property to define.
- * @param {Any} val - The value to set, must have extra quotes if it is a
- ** literal string. If it is a funciton, it will lose its scope, if it is an
- ** object, you are responsible in making it into a string.
- * @param {string} [parent="window"] - The name of the parent object, use "."
- ** or bracket notation to separate layers. The parent must exist.
- */
+
 a.readOnly = (name, val, parent = "window") => {
     name = a.strEscape(name);
     const strParent = a.strEscape(parent);
@@ -662,13 +514,7 @@ a.readOnly = (name, val, parent = "window") => {
         }
     })();`, true);
 };
-/**
- * Defines a non-accessible property, should be called on document-start.
- * @function
- * @param {string} name - The name of the property to define.
- * @param {string} [parent="window"] - The name of the parent object, use "."
- ** or bracket notation to separate layers. The parent must exist.
- */
+
 a.noAccess = (name, parent = "window") => {
     name = a.strEscape(name);
     const strParent = a.strEscape(parent);
@@ -706,12 +552,8 @@ a.noAccess = (name, parent = "window") => {
         }
     })();`, true);
 };
-/**
- * Similar to a.noAccess(), but with a more complicated property looping logic.
- * @function
- * @param {string} chain - The property chain, use "." to separate layers. Do
- ** not include "window".
- */
+
+// Chain : Property chain, use "." to separate levels, do not include "window"
 a.noAccessExt = (chain) => {
     chain = a.strEscape(chain);
     a.inject(`(() => {
@@ -788,53 +630,32 @@ a.noAccessExt = (chain) => {
         }
     })();`, true);
 };
-/**
- * Set or get a cookie.
- * @function
- * @param {string} key - The key of the cookie.
- * @param {string} [val=undefined] - The value to set, omit this to get the
- ** cookie.
- * @param {integer} [time=31536000000] - In how many milliseconds will it
- ** expire, defaults to 1 year.
- * @param {string} [path="/"] - The path to set.
- * @return {string|null|undefined} The value of the cookie, null will be
- ** returned if the cookie does not exist, and undefined will be returned in
- ** set mode.
- */
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+// Omit value to get cookie
 a.cookie = (key, val, time = 31536000000, path = "/") => {
     if (val === undefined) {
-        //Get mode
+        // Get mode
         const cookies = document.cookie;
         const i = cookies.indexOf(`${key}=`);
         const j = cookies.indexOf(";", i);
         if (i === -1) {
             return null;
         } else {
-            if (j === -1) {
-                //Goes to the end
+            if (j === -1)
                 return cookies.substring(i + key.length + 1);
-            } else {
+            else
                 return cookies.substring(i + key.length + 1, j);
-            }
         }
     } else {
-        //Set mode
+        // Set mode
         let expire = new Date();
         expire.setTime(expire.getTime() + time);
         document.cookie = `${key}=${encodeURIComponent(val)};expires=${expire.toGMTString()};path=${path}`;
     }
 };
-/**
- * Install XMLHttpRequest loopback engine. Should be called once on
- * document-start if needed.
- * The request will always be sent so event handlers can be triggered.
- * Depending on the website, a background redirect may also be required.
- * @function
- * @param {Function} server - The loopback server.
- ** @param {Any} ...args - The arguments supplied to open.
- ** @return {string|Any} Return a string to override the result of this request,
- *** return anything else to not interfere.
- */
+
 a.loopbackXHR = (server) => {
     a.inject(`(() => {
         "use strict";
@@ -882,20 +703,18 @@ a.loopbackXHR = (server) => {
         }
     })();`, true);
 };
-/**
- * Install XMLHttpRequest replace engine. Should be called once on
- * document-start if needed.
- * @function
- * @param {Function} handler - The replace handler, must be an arrow function.
- * @runtime this, method, url, isAsync, user, passwd, ...rest
- ** Keyword this and arguments passed to XMLHttpRequest.prototype.open().
- ** Keep in mind that the array rest includes isAsync, user, and passwd.
- * @runtime replace
- ** Replace payload.
- ** @function
- ** @param {This} that - The keyword this.
- ** @param {string} text - The new payload.
- */
+
+// Runtime:
+//
+// this
+// method
+// url
+// isAsync
+// user
+// passwd
+// rest    : Array, includes isAsync onwards
+// replace : Call to replace payload
+//           this, payload string
 a.replaceXHR = (handler) => {
     a.inject(`(() => {
         "use strict";
@@ -927,37 +746,43 @@ a.replaceXHR = (handler) => {
         }
     })();`, true);
 };
-/**
- * Forcefully close the current tab. This is asynchronous.
- * @function
- */
+
 a.close = () => {
     chrome.runtime.sendMessage({
         cmd: "remove tab",
     });
 };
 
+// ----------------------------------------------------------------------------------------------------------------- //
 
-/**
- * Apply generic solutions, call once on document-start if needed.
- * @function
- */
+// These functions must be called on document-start
+
 a.generic = () => {
-    // Based on generic solutions of Anti-Adblock Killer, modified to fit my API
+
+    // ------------------------------------------------------------------------------------------------------------- //
+
+    // Based on generic solutions of Anti-Adblock Killer
     // License: https://github.com/reek/anti-adblock-killer/blob/master/LICENSE
 
+    // ------------------------------------------------------------------------------------------------------------- //
 
     // document-start
+
     // FuckAdBlock
-    // a.generic.FuckAdBlock("FuckAdBlock", "fuckAdBlock");
     a.generic.FuckAdBlock("BlockAdBlock", "blockAdBlock");
     a.generic.FuckAdBlock("KillAdBlock", "killAdBlock");
+    // People customize this too much, and is causing problems
+    // a.generic.FuckAdBlock("FuckAdBlock", "fuckAdBlock");
+
     // ads.js v1
     a.readOnly("canRunAds", true);
     a.readOnly("canShowAds", true);
     a.readOnly("isAdBlockActive", false);
 
+    // ------------------------------------------------------------------------------------------------------------- //
+
     // document-end
+
     a.ready(() => {
         // AdBlock Alerter (WP)
         if ($("div.adb_overlay > div.adb_modal_img").length) {
@@ -965,21 +790,30 @@ a.generic = () => {
             a.css("html, body { height:auto; overflow:auto; }");
             a.err("AdBlock Alerter");
         }
+
         // Generic block screens
         {
             const elem = document.getElementById("blockdiv");
-            if (elem && elem.innerHTML === "disable ad blocking or use another browser without any adblocker when you visit") {
+            if (
+                elem &&
+                elem.innerHTML === "disable ad blocking or use another browser without any adblocker when you visit"
+            ) {
                 elem.remove();
                 console.error("[Nano] Generic Solution Triggered :: Generic Block Screens");
             }
         }
     });
 
+    // ------------------------------------------------------------------------------------------------------------- //
+
     // on-insert
+
     // No-Adblock
     const re1 = /^[a-z0-9]*$/;
+
     // StopAdBlock
     const re2 = /^a[a-z0-9]*$/;
+
     // AntiAdblock (Packer)
     const reIframeId = /^(?:z|w)d$/;
     const reImgId = /^(?:x|g)d$/;
@@ -988,110 +822,96 @@ a.generic = () => {
 
     const onInsertHandler = (insertedNode) => {
         // No-Adblock
-        if (insertedNode.nodeName === "DIV" &&
+        if (
+            insertedNode.nodeName === "DIV" &&
             insertedNode.id &&
             insertedNode.id.length === 4 &&
             re1.test(insertedNode.id) &&
             insertedNode.firstChild &&
             insertedNode.firstChild.id &&
             insertedNode.firstChild.id === insertedNode.id &&
-            insertedNode.innerHTML.includes("no-adblock.com")) {
-
+            insertedNode.innerHTML.includes("no-adblock.com")
+        ) {
             insertedNode.remove();
             a.err("No-Adblock");
         }
+
         // StopAdblock
-        if (insertedNode.nodeName === "DIV" &&
+        if (
+            insertedNode.nodeName === "DIV" &&
             insertedNode.id &&
             insertedNode.id.length === 7 &&
             re2.test(insertedNode.id) &&
             insertedNode.parentNode &&
             insertedNode.parentNode.id &&
             insertedNode.parentNode.id === insertedNode.id + "2" &&
-            insertedNode.innerHTML.includes("stopadblock.org")) {
-
+            insertedNode.innerHTML.includes("stopadblock.org")
+        ) {
             insertedNode.remove();
             a.err("StopAdblock");
         }
+
         // AntiAdblock (Packer)
-        if (insertedNode.id &&
+        if (
+            insertedNode.id &&
             reImgId.test(insertedNode.id) &&
             insertedNode.nodeName === "IMG" &&
             reImgSrc.test(insertedNode.src) ||
             insertedNode.id &&
             reIframeId.test(insertedNode.id) &&
             insertedNode.nodeName === "IFRAME" &&
-            reIframeSrc.test(insertedNode.src)) {
-
+            reIframeSrc.test(insertedNode.src)
+        ) {
             insertedNode.remove();
             a.err("AntiAdblock");
         }
     };
     a.onInsert(onInsertHandler);
 
+    // ------------------------------------------------------------------------------------------------------------- //
 
     a.inject(() => {
+
+        // --------------------------------------------------------------------------------------------------------- //
+
         "use strict";
 
-        // Initialization
-        let data = {};
+        // --------------------------------------------------------------------------------------------------------- //
+
+        const data = {};
+
         const error = window.console.error.bind(window.console);
+
         const err = (name) => {
             error(`[Nano] Generic Solution Triggered :: ${name}`);
         };
 
+        // --------------------------------------------------------------------------------------------------------- //
+
         // document-start
-        // Playwire
-        // Test link: http://support.playwire.com/article/adblock-detector-demo/
-        try {
-            const fakeTester = {
-                check(f) {
-                    err("Playwire");
-                    f();
-                },
-            };
-            // Since this is generic I cannot assign it to an object here
-            let val;
-            window.Object.defineProperty(window, "Zeus", {
-                configurable: false,
-                set(arg) {
-                    val = arg;
-                    try {
-                        if (val instanceof window.Object && val.AdBlockTester !== fakeTester) {
-                            window.Object.defineProperty(val, "AdBlockTester", {
-                                configurable: false,
-                                set() { },
-                                get() {
-                                    return fakeTester;
-                                },
-                            });
-                        }
-                    } catch (err) { }
-                },
-                get() {
-                    return val;
-                },
-            });
-        } catch (err) {
-            error("[Nano] Failed :: Playwire Defuser");
-        }
+
         // AdBlock Notify
         try {
             let val;
+
             let isEvil = false;
+
             const anErr = new window.Error("[Nano] Generic Solution Triggered :: AdBlock Notify");
+
             window.Object.defineProperty(window, "anOptions", {
-                configurable: true, // Important, must allow script snippets to override
+                configurable: true, // Important
                 set(arg) {
                     try {
-                        if (arg instanceof window.Object &&
+                        if (
+                            typeof arg === "object" && arg !== null &&
                             arg.anAlternativeText !== undefined &&
                             arg.anOptionAdsSelectors !== undefined &&
                             arg.anOptionChoice !== undefined &&
                             arg.anOptionModalShowAfter !== undefined &&
                             arg.anOptionModalclose !== undefined &&
                             arg.anSiteID !== undefined &&
-                            arg.modalHTML !== undefined) {
+                            arg.modalHTML !== undefined
+                        ) {
                             isEvil = true;
                             return;
                         }
@@ -1099,21 +919,26 @@ a.generic = () => {
                     val = arg;
                 },
                 get() {
-                    if (isEvil) {
+                    if (isEvil)
                         throw anErr;
-                    } else {
+                    else
                         return val;
-                    }
                 },
             });
         } catch (err) {
             error("[Nano] Failed :: AdBlock Notify Defuser");
         }
 
+        // --------------------------------------------------------------------------------------------------------- //
+
         // document-end
+
         window.addEventListener("DOMContentLoaded", () => {
             // AdBlock Detector (XenForo Rellect)
-            if (window.XenForo && typeof window.XenForo.rellect === "object") {
+            if (
+                typeof window.XenForo === "object" && window.XenForo !== null &&
+                typeof window.XenForo.rellect === "object"
+            ) {
                 window.XenForo.rellect = {
                     AdBlockDetector: {
                         start() { },
@@ -1121,11 +946,13 @@ a.generic = () => {
                 };
                 err("XenForo");
             }
+
             // Adbuddy
             if (typeof window.closeAdbuddy === "function") {
                 window.closeAdbuddy();
                 err("Adbuddy");
             }
+
             // Antiblock.org v2
             try {
                 const re = /^#([a-z0-9]{4,10}) ~ \* \{ display: none; \}/;
@@ -1150,26 +977,31 @@ a.generic = () => {
                     }
                 }
             } catch (err) { }
+
             // BetterStopAdblock, Antiblock.org v3, and BlockAdBlock
             {
                 const re = /^[a-z0-9]{4,12}$/i;
                 for (let prop in window) {
                     try {
-                        if (!prop.startsWith("webkit") &&
+                        if (
+                            !prop.startsWith("webkit") &&
                             prop !== "document" &&
                             re.test(prop) &&
-                            (window[prop] instanceof window.HTMLDocument) === false &&
+                            window[prop] instanceof window.HTMLDocument === false &&
                             window.hasOwnProperty(prop) &&
-                            typeof window[prop] === "object") {
+                            typeof window[prop] === "object" && window[prop] !== null
+                        ) {
                             const method = window[prop];
+
                             // BetterStopAdblock and Antiblock.org v3
-                            if (method.deferExecution &&
+                            if (
+                                method.deferExecution &&
                                 method.displayMessage &&
                                 method.getElementBy &&
                                 method.getStyle &&
                                 method.insert &&
-                                method.nextFunction) {
-
+                                method.nextFunction
+                            ) {
                                 if (method.toggle) {
                                     data.bsa = prop;
                                     err("BetterStopAdblock");
@@ -1179,17 +1011,17 @@ a.generic = () => {
                                 }
                                 window[prop] = null;
                             }
+
                             // BlockAdBlock
                             BlockAdBlock: {
                                 // https://github.com/jspenguin2017/uBlockProtector/issues/321
-                                // Important, otherwise large arrays chokes this
-                                if (method.length) {
+                                if (method.length)
                                     break BlockAdBlock;
-                                }
 
                                 let keyLen = 0;
                                 let hasBab = false;
                                 let keyCount = 0;
+
                                 for (let k in method) {
                                     if (k.length === 10) {
                                         keyLen += k.length;
@@ -1198,11 +1030,13 @@ a.generic = () => {
                                     } else {
                                         break BlockAdBlock;
                                     }
+
                                     if (keyLen > 30) {
                                         break BlockAdBlock;
                                     }
 
                                     keyCount += 1;
+
                                     if (keyCount > 3) {
                                         break BlockAdBlock;
                                     }
@@ -1211,6 +1045,7 @@ a.generic = () => {
                                 if (hasBab) {
                                     keyLen += 10;
                                 }
+
                                 if (keyLen === 30 && keyCount === 3) {
                                     window[prop] = null;
                                     err("BlockAdBlock");
@@ -1222,7 +1057,10 @@ a.generic = () => {
             }
         });
 
+        // --------------------------------------------------------------------------------------------------------- //
+
         // on-insert
+
         // Antiblock.org (all version) and BetterStopAdblock
         const reMsgId = /^[a-z0-9]{4,10}$/i;
         const reTag1 = /^(?:div|span|b|i|font|strong|center)$/i;
@@ -1237,13 +1075,16 @@ a.generic = () => {
             "947;&#959;&#960;&#959;&#943;&#951;&#963;&#951;|&#1079;&#1072;&#1" +
             "087;&#1088;&#1077;&#1097;&#1072;&#1090;&#1100;|állítsd le|public" +
             "ités|рекламе|verhindert|advert|kapatınız", "i");
+
         // Adunblock
         const reId = /^[a-z]{8}$/;
         const reClass = /^[a-z]{8} [a-z]{8}/;
         const reBg = /^[a-z]{8}-bg$/;
+
         const onInsertHandler = (insertedNode) => {
             // Antiblock.org (all version) and BetterStopAdblock
-            if (insertedNode.parentNode &&
+            if (
+                insertedNode.parentNode &&
                 insertedNode.id &&
                 insertedNode.style &&
                 insertedNode.childNodes.length &&
@@ -1252,37 +1093,45 @@ a.generic = () => {
                 !insertedNode.firstChild.className &&
                 reMsgId.test(insertedNode.id) &&
                 reTag1.test(insertedNode.nodeName) &&
-                reTag2.test(insertedNode.firstChild.nodeName)) {
+                reTag2.test(insertedNode.firstChild.nodeName)
+            ) {
                 const audio = insertedNode.querySelector("audio[loop]");
 
                 if (audio) {
                     audio.pause();
                     audio.remove();
                     err("Antiblock.org");
-                } else if ((data.abo2 && insertedNode.id === data.abo2) ||
-                    (insertedNode.firstChild.hasChildNodes() &&
+                } else if (
+                    data.abo2 && insertedNode.id === data.abo2 ||
+                    (
+                        insertedNode.firstChild.hasChildNodes() &&
                         reWords1.test(insertedNode.firstChild.innerHTML) &&
-                        reWords2.test(insertedNode.firstChild.innerHTML))) {
-
+                        reWords2.test(insertedNode.firstChild.innerHTML)
+                    )
+                ) {
                     insertedNode.remove();
                     err("Antiblock.org v2");
-                } else if ((data.abo3 && insertedNode.id === data.abo3) ||
-                    (insertedNode.firstChild.hasChildNodes() &&
+                } else if (
+                    data.abo3 && insertedNode.id === data.abo3 ||
+                    (
+                        insertedNode.firstChild.hasChildNodes() &&
                         insertedNode.firstChild.firstChild.nodeName === "IMG" &&
-                        insertedNode.firstChild.firstChild.src.startsWith("data:image/png;base64"))) {
-
+                        insertedNode.firstChild.firstChild.src.startsWith("data:image/png;base64")
+                    )
+                ) {
                     window[data.abo3] = null;
                     insertedNode.remove();
                     err("Antiblock.org v3");
                 } else if (data.bsa && insertedNode.id === data.bsa) {
-
                     window[data.bsa] = null;
                     insertedNode.remove();
                     err("BetterStopAdblock");
                 }
             }
+
             // Adunblock
-            if (window.vtfab !== undefined &&
+            if (
+                window.vtfab !== undefined &&
                 window.adblock_antib !== undefined &&
                 insertedNode.parentNode &&
                 insertedNode.parentNode.nodeName === "BODY" &&
@@ -1291,21 +1140,24 @@ a.generic = () => {
                 insertedNode.nodeName === "DIV" &&
                 insertedNode.nextSibling &&
                 insertedNode.nextSibling.className &&
-                insertedNode.nextSibling.nodeName === "DIV") {
-                if (insertedNode.className &&
+                insertedNode.nextSibling.nodeName === "DIV"
+            ) {
+                if (
+                    insertedNode.className &&
                     reClass.test(insertedNode.className) &&
                     reBg.test(insertedNode.nextSibling.className) &&
                     insertedNode.nextSibling.style &&
-                    insertedNode.nextSibling.style.display !== "none") {
-
+                    insertedNode.nextSibling.style.display !== "none"
+                ) {
                     // Full Screen Message (Premium)
                     insertedNode.nextSibling.remove();
                     insertedNode.remove();
                     a.err("Adunblock Premium");
-                } else if (insertedNode.nextSibling.id &&
+                } else if (
+                    insertedNode.nextSibling.id &&
                     reId.test(insertedNode.nextSibling.id) &&
-                    insertedNode.innerHTML.includes("Il semblerait que vous utilisiez un bloqueur de publicité !")) {
-
+                    insertedNode.innerHTML.includes("Il semblerait que vous utilisiez un bloqueur de publicité !")
+                ) {
                     // Top bar Message (Free)
                     insertedNode.remove();
                     a.err("Adunblock Free");
@@ -1325,15 +1177,12 @@ a.generic = () => {
             childList: true,
             subtree: true,
         });
+
+        // --------------------------------------------------------------------------------------------------------- //
+
     });
 };
-/**
- * Create a non-overridable FuckAdBlock constructor and instance that always
- * returns not detected.
- * @function
- * @param {string} constructorName - The name of the constructor.
- * @param {string} instanceName - The name of the instance.
- */
+
 a.generic.FuckAdBlock = (constructorName, instanceName) => {
     a.inject(`(() => {
         "use strict";
@@ -1453,10 +1302,7 @@ a.generic.FuckAdBlock = (constructorName, instanceName) => {
         }
     })();`, true);
 };
-/**
- * Setup generic Adfly bypasser, call once on document-start if needed.
- * @function
- */
+
 a.generic.Adfly = () => {
     // Based on AdsBypasser
     // License: https://github.com/adsbypasser/adsbypasser/blob/master/LICENSE
@@ -1464,33 +1310,33 @@ a.generic.Adfly = () => {
         "use strict";
         const isDigit = /^\d$/;
         const handler = (encodedURL) => {
-            if (window.document.body) {
+            if (window.document.body)
                 return;
-            }
 
             let var1 = "", var2 = "";
             for (let i = 0; i < encodedURL.length; i++) {
-                if (i % 2 === 0) {
+                if (i % 2 === 0)
                     var1 = var1 + encodedURL.charAt(i);
-                } else {
+                else
                     var2 = encodedURL.charAt(i) + var2;
-                }
             }
+
             let data = (var1 + var2).split("");
             for (let i = 0; i < data.length; i++) {
                 if (isDigit.test(data[i])) {
                     for (let ii = i + 1; ii < data.length; ii++) {
                         if (isDigit.test(data[ii])) {
                             const temp = parseInt(data[i]) ^ parseInt(data[ii]);
-                            if (temp < 10) {
+                            if (temp < 10)
                                 data[i] = temp.toString();
-                            }
+
                             i = ii;
                             break;
                         }
                     }
                 }
             }
+
             data = data.join("");
             const decodedURL = window.atob(data).slice(16, -16);
 
@@ -1508,9 +1354,8 @@ a.generic.Adfly = () => {
                     if (flag) {
                         flag = false;
                         try {
-                            if (typeof value === "string") {
+                            if (typeof value === "string")
                                 handler(value);
-                            }
                         } catch (err) { }
                     }
                     val = value;
@@ -1524,10 +1369,7 @@ a.generic.Adfly = () => {
         }
     });
 };
-/**
- * Set up app_vars defuser, call once on document-start if needed.
- * @function
- */
+
 a.generic.app_vars = () => {
     a.inject(() => {
         try {
@@ -1541,6 +1383,7 @@ a.generic.app_vars = () => {
                         window.Object.defineProperty(_app_vars, "force_disable_adblock", {
                             configurable: true,
                             set() {
+                                // Too many of them enforce timer on server side
                                 /*
                                 window.setInterval = (func, delay, ...args) => {
                                     if (delay === 1000) {
@@ -1565,50 +1408,7 @@ a.generic.app_vars = () => {
         }
     });
 };
-/**
- * Set up ads.js v2 defuser, call once on document-start if needed.
- * This defuser may cause some websites to malfunction.
- * @function
- * @param {integer} [min=11] - The minimum length of bait element ID.
- * @param {integer} [max=14] - The maximum length of bait element ID.
- */
-a.generic.adsjsV2 = (min = 11, max = 14) => {
-    a.inject(`(() => {
-        "use strict";
-        const error = window.console.error.bind(window.console);
-        const matcher = /^[a-zA-Z0-9]{${min},${max}}$/;
-        const err = new window.TypeError("Failed to execute 'getElementById' on 'Document': " +
-            "1 argument required, but only 0 present.");
-        let original;
-        const newFunc = (...args) => {
-            if (args.length) {
-                if (matcher.test(String(args[0]))) {
-                    let elem = original.apply(window.document, args);
-                    if (elem) {
-                        return elem;
-                    } else {
-                        error("[Nano] Generic Solution Triggered :: ads.js v2");
-                        return window.document.createElement("div");
-                    }
-                } else {
-                    return original.apply(window.document, args)
-                }
-            } else {
-                throw err;
-            }
-        };
-        try {
-            original = window.document.getElementById;
-            window.document.getElementById = newFunc;
-        } catch (err) {
-            error("[Nano] Failed :: ads.js v2 Defuser");
-        }
-    })();`, true);
-};
-/**
- * Set up Cloudflare Apps defuser, call once on document-start if needed.
- * @function
- */
+
 a.generic.CloudflareApps = () => {
     a.inject(() => {
         "use strict";
@@ -1649,17 +1449,47 @@ a.generic.CloudflareApps = () => {
     });
 };
 
+// Deprecated
+a.generic.adsjsV2 = (min = 11, max = 14) => {
+    a.inject(`(() => {
+        "use strict";
+        const error = window.console.error.bind(window.console);
+        const matcher = /^[a-zA-Z0-9]{${min},${max}}$/;
+        const err = new window.TypeError("Failed to execute 'getElementById' on 'Document': " +
+            "1 argument required, but only 0 present.");
+        let original;
+        const newFunc = (...args) => {
+            if (args.length) {
+                if (matcher.test(String(args[0]))) {
+                    let elem = original.apply(window.document, args);
+                    if (elem) {
+                        return elem;
+                    } else {
+                        error("[Nano] Generic Solution Triggered :: ads.js v2");
+                        return window.document.createElement("div");
+                    }
+                } else {
+                    return original.apply(window.document, args)
+                }
+            } else {
+                throw err;
+            }
+        };
+        try {
+            original = window.document.getElementById;
+            window.document.getElementById = newFunc;
+        } catch (err) {
+            error("[Nano] Failed :: ads.js v2 Defuser");
+        }
+    })();`, true);
+};
+
+// ----------------------------------------------------------------------------------------------------------------- //
 
 //@pragma-if-debug
-/**
- * Trace the access to a property, should be called on document-start.
- * Only available in debug mode, conflict with other functions that lock
- * variables.
- * @function
- * @param {string} name - The name of the property to define.
- * @param {string} [parent="window"] - The name of the parent object, use "."
- ** or bracket notation to separate layers. The parent must exist.
- */
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
 a.trace = (name, parent = "window") => {
     if (!a.debugMode) {
         console.error("a.trace() is only available in debug mode!");
@@ -1689,12 +1519,7 @@ a.trace = (name, parent = "window") => {
         }
     })();`, true);
 };
-/**
- * Log data to the background console.
- * Only available in debug mode.
- * @function
- * @param {string} log - The data to log.
- */
+
 a.backgroundLog = (log) => {
     if (!a.debugMode) {
         console.error("a.backgroundLog() is only available in debug mode!");
@@ -1705,16 +1530,7 @@ a.backgroundLog = (log) => {
         data: log,
     });
 };
-/**
- * setInterval() with benchmark.
- * Should only be used in debug mode, will be mapped to setInterval() in
- * developer mode, not available in production mode.
- * @function
- * @param {Special} func, delay, ...args - Arguments for setInterval(), the
- ** first parameter must be a function, cannot be raw code.
- * @return {Token} Cancellation token, can be passed to clearInterval() to
- ** clear the interval.
- */
+
 a.setBenchmarkedInterval = (func, delay, ...args) => {
     if (!a.debugMode) {
         console.error("a.setBenchmarkedInterval() should only be used in debug mode!");
@@ -1727,4 +1543,9 @@ a.setBenchmarkedInterval = (func, delay, ...args) => {
         console.log(`[Nano] Benchmark Interval :: ${func.name} Used ${t1 - t0} Milliseconds`);
     }, delay);
 };
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
 //@pragma-end-if
+
+// ----------------------------------------------------------------------------------------------------------------- //

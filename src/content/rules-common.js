@@ -135,6 +135,7 @@
         "egy.best",
         "filmweb.pl",
         "finobe.com",
+        "gamersclub.com.br",
         "imdb.com",
         "infostrow.pl",
         "jazzradio.com",
@@ -245,10 +246,10 @@
 
     // ------------------------------------------------------------------------------------------------------------- //
 
+    // Deprecated
     if (a.domCmp([
         "acquavivalive.it",
         "beinsports.com",
-        "gamersclub.com.br",
         "listamais.com.br",
         "lolskinlistgenerator.com",
         "m.delfi.ee",
