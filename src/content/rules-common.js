@@ -18,9 +18,9 @@
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-// Handle whitelist and initialize generic content solutions. Then apply common content rules.
+// Handle whitelist and initialize generic content solutions. Then apply common content rules
 //
-// Solutions from Anti-Adblock Killer (by Reek) are modified to fit the content core library.
+// Solutions from Anti-Adblock Killer (by Reek) are modified to fit the content core library
 //
 // Anti-Adblock Killer Repository (contains original source code and license):
 // https://github.com/reek/anti-adblock-killer
@@ -209,6 +209,9 @@
         "9anime",
         "italiashare",
         "kissanime",
+        "oladblock",
+        "oload",
+        "openload",
 
         // --------------------------------------------------------------------------------------------------------- //
 
@@ -352,8 +355,6 @@ if (a.domCmp([
     "myp2p.sx",
     "myp2p.tv",
     "myp2p.ws",
-    "oload.info",
-    "oload.stream",
     "sawlive.tv",
     "shink.me",
     "u2s.io",
@@ -445,10 +446,6 @@ if (a.domCmp([
     "angrybirdsnest.com",
     "freizeitpartnerweb.de",
     "nekopoi.bid",
-    "oload.stream",
-    "openload.co",
-    "openload.io",
-    "openload.tv",
     "outdoorpartner.net",
     "translatica.pl",
     "urlaubspartner.net",
