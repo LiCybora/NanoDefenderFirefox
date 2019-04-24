@@ -172,6 +172,13 @@ if (a.domCmp([
     });
 }
 
+// https://github.com/NanoMeow/QuickReports/issues/999
+if (a.domCmp([
+    "javgay.co",
+])) {
+    a.readOnly("AlobaidiDetectAdBlock", true);
+}
+
 // --------------------------------------------------------------------------------------------- //
 
 if (a.domCmp(["catchcoin.pw", "irc-source.com", "dashcatch.xyz"])) {
@@ -2404,23 +2411,6 @@ if (a.domCmp(["gp.se", "bohuslaningen.se", "hallandsposten.se", "hn.se", "stroms
         window._adform = {
             readTags() { },
         };
-    });
-}
-if (a.domCmp(["kbb.com"])) {
-    a.inject(() => {
-        "use strict";
-        const v = window.Object.freeze({
-            init() { },
-            start() { },
-        });
-        window.KBB = {};
-        window.Object.defineProperty(window.KBB, "Abb", {
-            configurable: false,
-            set() { },
-            get() {
-                return v;
-            },
-        });
     });
 }
 if (a.domCmp(["booogle.net", "nsspot.net"])) {
