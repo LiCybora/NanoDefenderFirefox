@@ -673,23 +673,6 @@ if (a.domCmp(["libertaddigital.com"])) {
     a.readOnly("ad_already_played", true);
     a.readOnly("puedeMostrarAds", true);
 }
-if (a.domCmp(["folha.uol.com.br"])) {
-    a.readOnly("paywall_access", true);
-    a.readOnly("folha_ads", true);
-}
-if (a.domCmp(["uol.com.br"])) {
-    a.readOnly("detectingAdblocks", false);
-    a.inject(() => {
-        "use strict";
-        window.UOLPD = {
-            TagManager: {
-                DfpAsync: {
-                    getAdSize() { },
-                },
-            },
-        };
-    });
-}
 if (a.domCmp(["armorgames.com"])) {
     a.readOnly("ga_detect", null);
 }
@@ -723,6 +706,9 @@ if (a.domCmp(["jbzdy.pl"])) {
             },
         });
     });
+}
+if (a.domCmp(["folha.uol.com.br"])) {
+    a.readOnly("paywall_access", true);
 }
 if (a.domCmp(["infoua.biz"])) {
     a.filter("setTimeout", a.matchMethod.stringExact, "function (){b()}");
