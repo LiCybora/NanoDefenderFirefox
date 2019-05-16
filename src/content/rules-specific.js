@@ -278,17 +278,13 @@ if (a.domCmp(["pinkrod.com", "wetplace.com"])) {
     a.readOnly("getAd", () => { });
     a.readOnly("getUtm", () => { });
 }
-if (a.domCmp(["hackintosh.zone", "elfqrin.com", "lne.es", "diariodemallorca.es", "artesacro.org"])) {
+if (a.domCmp(["elfqrin.com", "lne.es", "diariodemallorca.es", "artesacro.org"])) {
     a.ready(() => {
         a.inject(() => {
             "use strict";
             window.onload = null;
         });
     });
-}
-if (a.domCmp(["hackintosh.computer"])) {
-    a.noAccess("google_jobrunner");
-    a.readOnly("ai_adb_detected", (...args) => window.ai_adb_undetected(...args));
 }
 if (a.domCmp(["tvregionalna24.pl"])) {
     a.inject(() => {
@@ -589,11 +585,6 @@ if (a.domCmp(["rmprepusb.com"])) {
 }
 if (a.domCmp(["cubeupload.com"])) {
     a.filter("write", a.matchMethod.string, "Please consider removing adblock to help us pay our bills", "window.document");
-}
-if (a.domCmp(["hentaihaven.org"])) {
-    // NSFW!
-    // https://github.com/jspenguin2017/uBlockProtector/issues/76
-    a.noAccess("desktop_variants");
 }
 if (a.domCmp(["bluesatoshi.com"])) {
     a.css("#test { height:280px; }");
@@ -1374,7 +1365,7 @@ if (a.domCmp(["linkdrop.net", "revclouds.com", "leporno.org", "uploadshub.com", 
 }
 if (a.domCmp(["demo-phoenix.com", "dpstream.net", "gum-gum-streaming.com", "jeu.info", "sofoot.com",
     "gaara-fr.com", "gaytube.com", "tuxboard.com", "xstory-fr.com", "hentaifr.net", "filmstreaming-hd.com",
-    "filmvf.net", "hentaihaven.org", "narutoshippudenvf.com", "thebadbuzz.com", "manga-news.com", "jeu.video",
+    "filmvf.net", "narutoshippudenvf.com", "thebadbuzz.com", "manga-news.com", "jeu.video",
     "mangas-fr.com"])) {
     a.css("body { visibility:visible; }");
 }
@@ -2255,13 +2246,6 @@ if (a.domCmp(["oddreaders.com"])) {
     a.onInsert((node) => {
         if (node.querySelector && node.querySelector("img[src='http://oddreaders.com/wp-content/uploads/2017/07/" +
             "A-Publisher-Approach-to-Adblock-Users.png'")) {
-            node.remove();
-        }
-    });
-}
-if (a.domCmp(["vod.pl"])) {
-    a.onInsert((node) => {
-        if (node.tagName !== "SCRIPT" && node.innerText && node.innerText.includes("Prosimy, odblokuj wy\u015Bwietlanie reklam")) {
             node.remove();
         }
     });
