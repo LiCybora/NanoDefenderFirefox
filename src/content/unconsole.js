@@ -39,6 +39,3 @@ a.inject(() => {
 	window.nanoConsole.trace = () => { };
 
 });
-
-
-

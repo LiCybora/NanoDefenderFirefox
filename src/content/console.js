@@ -31,6 +31,3 @@ a.inject(() => {
     "use strict";
 	window.nanoConsole = window.console;
 });
-
-
-
