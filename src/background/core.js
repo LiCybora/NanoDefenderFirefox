@@ -39,8 +39,8 @@ a.init = () => {
 
     chrome.runtime.onMessage.addListener((msg, sender, res) => {
         if (
-            typeof msg !== "object" ||
-            typeof sender !== "object" ||
+            msg === null || typeof msg !== "object" ||
+            sender === null || typeof sender !== "object" ||
             typeof res !== "function"
         ) {
             return;
