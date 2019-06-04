@@ -14,7 +14,7 @@ For issues found on Firefox port, it is recommended to report here.
 
 Nano Defender can only protect either [Nano Adblocker](https://github.com/LiCybora/NanoCoreFirefox) or [uBlock Origin](https://github.com/gorhill/ublock), and will prioritize Nano Adblocker.
 
-### [Get it here (for Waterfox/Firefox 56 or above)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+### [Get it here (for Waterfox/Firefox 55 or above)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
 ### [Get it on AMO (Recommend, ONLY for Firefox 60 or above)](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
 
