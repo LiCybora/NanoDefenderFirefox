@@ -14,7 +14,7 @@ For issues found on Firefox port, it is recommended to report here.
 
 Nano Defender can only protect either [Nano Adblocker](https://github.com/LiCybora/NanoCoreFirefox) or [uBlock Origin](https://github.com/gorhill/ublock), and will prioritize Nano Adblocker.
 
-### [Get it here (for Waterfox/Firefox 56 or above)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
+### [Get it here (for Waterfox/Firefox 55 or above)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
 ### [Get it on AMO (Recommend, ONLY for Firefox 60 or above)](https://addons.mozilla.org/en-US/firefox/addon/nano-defender-firefox/)
 
@@ -24,7 +24,7 @@ Note: If you are using uBlock Origin, there are a few [extra installation steps]
 
 ### About Pre-quantum fork
 
-ONLY Waterfox 56, or forks with equivalent gecko version and supporting WebExtension API can install via the first link.
+ONLY Waterfox 55 or above, or forks with equivalent gecko version and supporting WebExtension API can install via the first link.
 However, some functions are lacking (such as console switch and response data filtering).
 
 **No support for other pre-quantum forks without WebExtension API (such as Basilisk, Palemoon).**
