@@ -67,11 +67,71 @@ if (a.debugMode) {
             if (url.startsWith("https://pubads.g.doubleclick.net/")) {
                 return [
                     '<?xml version="1.0" encoding="UTF-8"?>',
-                    '<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +
-                    'xsi:noNamespaceSchemaLocation="vast.xsd" version="3.0">',
+                    '<VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd" version="3.0">',
                     '</VAST>',
                 ].join("\n");
             }
+        });
+    }
+
+    // ------------------------------------------------------------------------------------------------------------- //
+
+
+    // https://github.com/NanoMeow/QuickReports/issues/352
+    // https://github.com/uBlockOrigin/uAssets/issues/4290
+    // https://github.com/jspenguin2017/uBlockProtector/pull/1045
+    if (a.domCmp([
+        "gamer.com.tw",
+    ])) {
+        a.inject(() => {
+            "use strict";
+
+            const _XMLHttpRequest = window.XMLHttpRequest;
+
+            const patchPlayer = (src) => {
+                const adsTimerOffset = /<Linear skipoffset=.*?>/;
+                let adsTimerPrompt =
+                        /\w\.innerHTML='<p class="vast-skip-button-text">'\+window\._molSettings\.skipText.*?"<\/p>"/g;
+                let adsSkipPrompt = /\w\.innerHTML=window\._molSettings\.skipButtonText/g;
+                const req = new _XMLHttpRequest();
+                req.onreadystatechange = () => {
+                    if (req.readyState === 4) {
+                        let payload = req.responseText;
+                        try {
+                            payload = payload.replace(adsTimerOffset, '<Linear skipoffset="00:00:08">');
+                            payload = payload.replace(adsSkipPrompt, [
+                                "$('.vast-skip-button.enabled')[0].click()",
+                                "$('#ani_video_html5_api').show()",
+                                "$('#ani_video_html5_api').prop('muted', false)",
+                            ].join(","));
+                            payload = payload.replace(adsTimerPrompt, (match) => {
+                                return "(" + [
+                                    match,
+                                    "$('#ani_video_html5_api').hide()",
+                                    "$('#ani_video_html5_api').prop('muted', true)",
+                                ].join(",") + ")";
+                            });
+                        } catch (err) { }
+                        const script = window.document.createElement("script");
+                        script.textContent = payload;
+                        window.document.body.append(script);
+                    }
+                };
+                req.open("GET", src);
+                req.send();
+            };
+
+            const _appendChild = window.Element.prototype.appendChild;
+            window.Element.prototype.appendChild = function (elem) {
+                if (
+                    elem.tagName === "SCRIPT" &&
+                    elem.src &&
+                    elem.src.startsWith("https://i2.bahamut.com.tw/build/js/animeplayer")
+                ) {
+                    return void patchPlayer(elem.src);
+                }
+                return _appendChild.apply(this, arguments);
+            };
         });
     }
 
