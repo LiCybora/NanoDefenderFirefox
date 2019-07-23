@@ -48,14 +48,21 @@ a.init = () => {
 
 
         if (typeof msg.cmd === "string") {
-            // 2 command for handling console, no tabs involved
+            // commands for handling content script
             switch (msg.cmd) {
                 case "toggle console":
                     a.allowConsole = msg.status;
-                    a.register(a.allowConsole);
+                    a.register();
+                    return;     
+                case "toggle debug":
+                    a.debugRule = msg.status;
+                    a.register();
                     return;
                 case "get status":
-                    res({"status": a.allowConsole});
+                    res({
+                        "status": a.allowConsole,
+                        "debug": a.debugRule
+                    });
                     return;
                 default:
 
@@ -250,6 +257,12 @@ a.init = () => {
 a.allowConsole = true;
 
 /**
+ * Whether Debug rule is activated (default: false)
+ * @var {boolean}
+ */
+a.debugRule = false;
+
+/**
  * Record the registered content script (default: true)
  * @var {Object}
  */
@@ -258,16 +271,19 @@ a.registered = null;
 /**
  * Register content script
  * @function
- * @param {boolean} consoleOn - whether to turn on or off the console.
  */
- a.register = async (consoleOn) => {
+ a.register = async () => {
     let scripts = [
         {"file": `content/${a.allowConsole ? "" : "un"}console.js`},
         {"file": "content/rules-common.js"},
         {"file": "content/rules-specific.js"},
-        {"file": "content/rules-sticky.js"},
-        {"file": "content/debug.js"},
-        {"code": 
+        {"file": "content/rules-sticky.js"}
+    ];
+    if (a.debugRule) {
+        scripts.push({"file": "content/debug.js"});
+    }
+    scripts.push({
+        "code": 
             `"use strict";
             {
                 a.inject(() => {
@@ -275,8 +291,7 @@ a.registered = null;
                     delete window.nanoConsole;
                 });
             }`
-        }
-    ];
+    });
     if (a.registered) a.registered.unregister();
     a.registered = await browser.contentScripts.register({
         "allFrames": true,

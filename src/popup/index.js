@@ -45,9 +45,9 @@ const home = [
     // Check whether console is allowed
     const request = browser.runtime.sendMessage({
         cmd: "get status",
-    });
-    request.then((msg)=> {
+    }).then((msg)=> {
         cssSelect("#toggleConsole").prop("checked", msg.status); 
+        cssSelect("#toggleDebugRules").prop("checked", msg.debug); 
     }, (e) => console.log(e));
 }
 
@@ -76,6 +76,13 @@ cssSelect("#toggleConsole").on("click", function() {
     browser.runtime.sendMessage({
         "cmd": "toggle console",
         "status": cssSelect("#toggleConsole").prop("checked"),
+    });
+})
+
+cssSelect("#toggleDebugRules").on("click", function() {
+    browser.runtime.sendMessage({
+        "cmd": "toggle debug",
+        "status": cssSelect("#toggleDebugRules").prop("checked"),
     });
 })
 
