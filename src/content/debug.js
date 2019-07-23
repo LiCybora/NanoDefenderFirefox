@@ -83,35 +83,24 @@ if (a.debugMode) {
     if (a.domCmp([
         "gamer.com.tw",
     ])) {
-        a.timewarp("setInterval", a.matchMethod.stringExact, "1000");
         a.inject(() => {
             "use strict";
 
             const _XMLHttpRequest = window.XMLHttpRequest;
 
-            const patchPlayer = (src, beta) => {
+            const patchPlayer = (src) => {
                 const adsTimerOffset = /<Linear skipoffset=.*?>/;
-                const adsTimerDefinition = "<Duration>00:00:05</Duration>";
-
-                let adsTimerPrompt;
-                let adsSkipPrompt;
-                if (beta) {
-                    adsTimerPrompt = /\w\.innerHTML='<p class="vast-skip-button-text">'\+window\._molSettings\.skipText.*?"<\/p>"/g;
-                    adsSkipPrompt = /\w\.innerHTML=window\._molSettings\.skipButtonText/g;
-                } else {
-                    adsTimerPrompt = /\w\.innerHTML="\u5ee3\u544a.*?\u6d88\u9664\u5ee3\u544a.*?\uff1f"/;
-                    adsSkipPrompt = /\w\.innerHTML="\u9ede\u6b64\u8df3\u904e\u5ee3\u544a"/;
-                }
-
+                let adsTimerPrompt =
+                        /\w\.innerHTML='<p class="vast-skip-button-text">'\+window\._molSettings\.skipText.*?"<\/p>"/g;
+                let adsSkipPrompt = /\w\.innerHTML=window\._molSettings\.skipButtonText/g;
                 const req = new _XMLHttpRequest();
                 req.onreadystatechange = () => {
                     if (req.readyState === 4) {
                         let payload = req.responseText;
                         try {
-                            payload = payload.replace(adsTimerOffset, '<Linear skipoffset="00:00:03">');
-                            payload = payload.replace(adsTimerDefinition, "<Duration>00:00:00</Duration>");
+                            payload = payload.replace(adsTimerOffset, '<Linear skipoffset="00:00:08">');
                             payload = payload.replace(adsSkipPrompt, [
-                                "$('.vast-skip-button')[0].click()",
+                                "$('.vast-skip-button.enabled')[0].click()",
                                 "$('#ani_video_html5_api').show()",
                                 "$('#ani_video_html5_api').prop('muted', false)",
                             ].join(","));
@@ -139,7 +128,7 @@ if (a.debugMode) {
                     elem.src &&
                     elem.src.startsWith("https://i2.bahamut.com.tw/build/js/animeplayer")
                 ) {
-                    return void patchPlayer(elem.src, elem.src.includes("beta"));
+                    return void patchPlayer(elem.src);
                 }
                 return _appendChild.apply(this, arguments);
             };
