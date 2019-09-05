@@ -546,7 +546,6 @@ a.xhr = (details, onload, onerror) => {
 
     if (details.method !== "GET" && details.method !== "POST")
         return false;
-    }
 
     if (a.allowConsole)
         console.log("[Nano] Cross Origin Request ::", details.url);
