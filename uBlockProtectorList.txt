@@ -4,7 +4,6 @@
 # This file is a compiled binary, any modification will be overwritten on the next build
 |https://legacy.hugoxu.com/uBlockProtector/Solutions/Blocked.php$important
 |https://legacy.hugoxu.com/uBlockProtector/Solutions/
-@@|https://legacy.hugoxu.com/uBlockProtector/Solutions/MoatFreeWheelJSPEM.js|$script
 @@|https://*.moatads.com/*/MoatFreeWheelJSPEM.js*$script
 @@|https://ads.korri.fr/index.js|$script
 @@|http://*.medianetworkinternational.com/js/advertisement.js*$script
@@ -826,8 +825,6 @@ pencurimovie.cc##.adb_overlay
 pencurimovie.cc###simplemodal-overlay
 pencurimovie.cc###simplemodal-container
 @@||sports.ru^*/adfox.$xmlhttprequest
-smashboards.com###noticeMain
-smashboards.com##.premiumContain
 doupe.zive.cz#@##adblock-leaderboard
 @@||ads.rubiconproject.com/ad/$script,domain=doupe.zive.cz
 ||doupe.zive.cz/Client.Scripts/jquery.onp.sociallocker.1.7.6.js$script
