@@ -1037,13 +1037,6 @@ if (a.domCmp(["exashare.com", "chefti.info", "bojem3a.info", "ajihezo.info", "ya
 if (a.domCmp(["an1me.se"])) {
     a.readOnly("isBlockAds2", false);
 }
-if (a.domCmp(["hqq.tv"])) {
-    a.ready(() => {
-        if (location.pathname === "/player/embed_player.php") {
-            cssSelect("form[id^='form-']").submit();
-        }
-    });
-}
 if (a.domCmp(["koscian.net"])) {
     a.ready(() => {
         cssSelect(".ban").remove();
@@ -2992,7 +2985,9 @@ if (a.domCmp([
 
 // https://github.com/NanoAdblocker/NanoFilters/issues/369
 // https://github.com/NanoMeow/QuickReports/issues/1704
+// https://github.com/NanoMeow/QuickReports/issues/1711
 if (a.domCmp([
+    "o2.pl",
     "pudelek.pl",
     "wp.pl",
 ])) {
