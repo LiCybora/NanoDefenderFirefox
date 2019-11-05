@@ -6,9 +6,15 @@ An anti-adblock defuser for Nano Adblocker and uBlock Origin on Firefox
 
 ## About Firefox port
 
-The source code of this project is shared from [upstream](https://github.com/jspenguin2017/uBlockProtector)
+The source code of this project is shared from [upstream](https://github.com/jspenguin2017/uBlockProtector).
 
-For issues found on Firefox port, it is recommended to report here.
+For issues other than filter issues found on Firefox port, it is recommended to report [here](https://github.com/LiCybora/NanoDefenderFirefox/issues).
+
+### Notable changes
+
+#### Disable console log (since v15.0.0.93)
+
+You may disable console log for this browser session in the popup (see the first row of screenshot). This option will turn on again when you restart browser session. Please note that console filtering with -[Nano] will **NOT** work for Firefox.
 
 ## Installation
 
