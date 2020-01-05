@@ -474,36 +474,6 @@ if (a.domCmp(["thechive.com"])) {
         broadcastResult() { },
     }`);
 }
-if (a.domCmp(["richonrails.com"])) {
-    a.ready(() => {
-        $(".article-content").after(`<div class="article-content-2"></div>`).remove();
-        const payload = `"<ins+id="aswift_0_expand"+style="display:inline-table;border:none;height:90px;` +
-            `margin:0;padding:0;position:relative;visibility:visible;width:750px;background-color:transparent"><ins+id="aswi` +
-            `ft_0_anchor"+style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visib` +
-            `le;width:750px;background-color:transparent"><iframe+marginwidth="0"+marginheight="0"+vspace="0"+hspace="0"+all` +
-            `owtransparency="true"+scrolling="no"+allowfullscreen="true"+onload="var+i=this.id,s=window.google_iframe_oncopy` +
-            `,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&am` +
-            `p;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else+if(h.match){try{h=s.upd(h,i)}catch(e){}w.` +
-            `location.replace(h)}}"+id="aswift_0"+name="aswift_0"+style="left:0;position:absolute;top:0;"+width="750"+frameb` +
-            `order="0"+height="90"></iframe></ins></ins>"`;
-        $.request({
-            method: "POST",
-            url: $(".article-content").data("url"),
-            headers: {
-                "Accept": "text/javascript",
-            },
-            payload: a.serialize({
-                html: payload,
-            }),
-        }, (result) => {
-            const exec = result.replace("$('.article-content')", "$('.article-content-2')");
-            a.inject(`(() => {
-                "use strict";
-                ${exec}
-            })();`, true);
-        }, () => { });
-    });
-}
 if (a.domCmp(["rmprepusb.com"])) {
     a.cookie("jot_viewer", "3");
 }
@@ -2624,22 +2594,6 @@ if (a.domCmp(["wifihack.me"])) {
 if (a.domCmp(["flashx.tv", "flashx.to"])) {
     a.filter("addEventListener", a.matchMethod.stringExact, "keydown", "window.document");
 }
-if (a.domCmp(["wowtoken.info"])) {
-    const re = /fail\(\);/g;
-    a.beforeScript((script) => {
-        if (script.src && script.src.includes("/js/main.js")) {
-            $.request({
-                method: "GET",
-                url: script.src,
-            }, (data) => {
-                a.inject(data.replace(re, "true;"), true);
-            }, () => {
-                console.error("[Nano] Failed :: Patch Main Script");
-            });
-            script.remove();
-        }
-    });
-}
 if (a.domCmp(["arenavision.us"])) {
     a.noAccess("H7WWWW");
     a.noAccess("adbClick");
@@ -2856,27 +2810,6 @@ if (a.domCmp(["crockolinks.com"])) {
 if (a.domCmp(["srt.am", "tny.ec"])) {
     a.noAccess("acPrefetch");
 }
-if (a.domCmp(["uflash.tv"])) {
-    a.inject(() => {
-        "use strict";
-        const codeExtractor = /if\(h&&check3\)({[^}]+})/;
-        let payload;
-        const _eval = window.eval;
-        window.eval = (code, ...rest) => {
-            const match = codeExtractor.exec(code);
-            if (match) {
-                payload = match[1];
-            } else {
-                _eval.call(window, code, ...rest);
-            }
-        };
-        window.addEventListener("load", () => {
-            if (payload) {
-                _eval.call(window, payload);
-            }
-        });
-    });
-}
 if (a.domCmp(["hdpass.net"])) {
     // https://gitlab.com/xuhaiyang1234/NanoAdblockerSecretIssues/issues/1
     a.inject(() => {
@@ -2993,5 +2926,32 @@ if (a.domCmp([
         };
     });
 }
+
+// ----------------------------------------------------------------------------------------------------------------- //
+
+//@pragma-if-debug
+
+// These rules require patching or interacting with remote scripts and cannot be released to extension store
+
+// https://github.com/NanoMeow/QuickReports/issues/2618
+if (a.domCmp(["wowtoken.info"])) {
+    const re = /fail\(\);/g;
+    a.beforeScript((script) => {
+        if (script.src && script.src.includes("/js/main.js")) {
+            $.request({
+                method: "GET",
+                url: script.src,
+            }, (data) => {
+                a.inject(data.replace(re, "true;"), true);
+                a.css(".adsbygoogle { display: none; }");
+            }, () => {
+                console.error("[Nano] Failed :: Patch Main Script");
+            });
+            script.remove();
+        }
+    });
+}
+
+//@pragma-end-if
 
 // ----------------------------------------------------------------------------------------------------------------- //
