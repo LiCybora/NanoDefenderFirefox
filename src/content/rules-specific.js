@@ -259,7 +259,7 @@ if (a.domCmp(["wired.it"])) {
     cssSelect("html").rmClass("hideVideo").addClass("showVideo");
 }
 if (a.domInc(["knowlet3389.blogspot"])) {
-    a.filter("setTimeout", a.matchMethod.string, 'cssSelect("#gAds").height()');
+    a.filter("setTimeout", a.matchMethod.string, '$("#gAds").height()');
 }
 if (a.domCmp(["freegameserverhost.com"])) {
     a.css("#fab13 { height:11px; }");
@@ -1532,7 +1532,7 @@ if (a.domCmp(["nicematin.com", "alcpu.com"])) {
     a.noAccess("checkAds");
 }
 if (a.domCmp(["up-4ever.com"])) {
-    a.filter("setTimeout", a.matchMethod.string, "cssSelect('#adblock_detected').val(1);");
+    a.filter("setTimeout", a.matchMethod.string, "$('#adblock_detected').val(1);");
     a.css("#hiddensection { display:block; }");
     a.ready(() => {
         cssSelect("#hiddensection").show();
@@ -2939,7 +2939,11 @@ if (a.domCmp(["identi.li"])) {
                 if (!blocks[i].firstChild.tagName) {
                     try {
                         const links = window.GibberishAES.dec(blocks[i].textContent, window.hash);
-                        blocks[i].innerHTML = window.linkify(links.replace(nbsp, " "));
+                        const nodes = document.createRange().createContextualFragment(window.linkify(links.replace(nbsp, " ")));
+                        blocks[i].textContent = '';
+                        while (nodes.firstChild) {
+                            blocks[i].appendChild(nodes.firstChild);
+                        }
                         blocks[i].style.display = "block";
                         blocks[i].parentNode.previousSibling.remove();
                     } catch (err) { }
