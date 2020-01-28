@@ -1253,6 +1253,7 @@ if (a.domInc(["gamereactor"])) {
 }
 if (a.domCmp(["dasolo.co", "dasolo.me"])) {
     // https://github.com/jspenguin2017/uBlockProtector/issues/126
+    // Note to reviewer: this is patching eval instead of calling.
     a.inject(() => {
         "use strict";
         window.eval = () => { };
@@ -1785,6 +1786,7 @@ if (a.domCmp(["adshort.co", "linksh.top", "adshorte.com", "coinb.ink", "gratisju
     a.noAccess("F3Z9");
 }
 if (a.domCmp(["sport365.live"])) {
+    // Note to reviewer: this is patching eval instead of calling.
     a.inject(() => {
         "use strict";
         const _eval = window.eval;
@@ -2719,35 +2721,35 @@ if (a.domCmp([
 }
 
 // ----------------------------------------------------------------------------------------------------------------- //
-
-if (a.domCmp(["tvregionalna24.pl"])) {
-    a.inject(() => {
-        "use strict";
-        let text = [];
-        const matcher = /var _ended=(.*);var _skipButton/;
-        const newFunc = (a, b, func) => {
-            let temp = "(" + matcher.exec(String(func))[1] + ")();";
-            temp = temp.replace("player.dispose();", "");
-            text.push(temp);
-        };
-        window.Object.defineProperty(window, "videojs", {
-            configurable: false,
-            set() { },
-            get() {
-                return newFunc;
-            },
-        });
-        window.addEventListener("load", function replace() {
-            if (text.length > 0 && window.document.getElementsByClassName("vjs-poster").length > 0) {
-                for (let i = 0; i < text.length; i++) {
-                    window.eval(text[i]);
-                }
-            } else {
-                window.setTimeout(replace, 1000);
-            }
-        });
-    });
-}
+// https://github.com/LiCybora/NanoDefenderFirefox/issues/167
+// if (a.domCmp(["tvregionalna24.pl"])) {
+//     a.inject(() => {
+//         "use strict";
+//         let text = [];
+//         const matcher = /var _ended=(.*);var _skipButton/;
+//         const newFunc = (a, b, func) => {
+//             let temp = "(" + matcher.exec(String(func))[1] + ")();";
+//             temp = temp.replace("player.dispose();", "");
+//             text.push(temp);
+//         };
+//         window.Object.defineProperty(window, "videojs", {
+//             configurable: false,
+//             set() { },
+//             get() {
+//                 return newFunc;
+//             },
+//         });
+//         window.addEventListener("load", function replace() {
+//             if (text.length > 0 && window.document.getElementsByClassName("vjs-poster").length > 0) {
+//                 for (let i = 0; i < text.length; i++) {
+//                     window.eval(text[i]);
+//                 }
+//             } else {
+//                 window.setTimeout(replace, 1000);
+//             }
+//         });
+//     });
+// }
 
 if (a.domInc(["slideplayer"])) {
     a.on("load", () => {
