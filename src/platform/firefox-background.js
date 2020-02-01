@@ -26,6 +26,43 @@
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+a.dynamicServer(
+    [
+        "*://*.tvregionalna24.pl/*",
+    ],
+    [
+        "main_frame",
+    ],
+    (details) => {
+        let payload = "";
+        const filter = browser.webRequest.filterResponseData(details.requestId);
+        const decoder = new TextDecoder("utf-8");
+        const encoder = new TextEncoder();
+        filter.ondata = (e) => {
+            payload += decoder.decode(e.data, { stream: true });
+        };
+        filter.onstop = () => {
+            const matcher = /var _ended=(.*?);var _skipButton/g;
+            let skipFuncs = [];
+            let tmp;
+            while((tmp = matcher.exec(payload)) !== null) {
+                skipFuncs.push(`(${tmp[1].replace("player.dispose();", "")})();`);
+            }
+            if (skipFuncs.length > 0) {
+                const re = /<body>([\s\S]*)<\/body>/g;
+                let body = re.exec(payload)[1];
+                payload = payload.replace(body, body+`<script>"use strict";${skipFuncs.join('')}</script>`);
+            }
+            filter.write(encoder.encode(payload));
+            filter.disconnect();
+        };
+    },
+    [
+        "tvregionalna24.pl",
+    ],
+    true,
+);
+
 //@pragma-if-debug
 
 // Debug rules
