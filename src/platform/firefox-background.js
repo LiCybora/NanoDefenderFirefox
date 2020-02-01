@@ -51,7 +51,18 @@ a.dynamicServer(
             if (skipFuncs.length > 0) {
                 const re = /<body>([\s\S]*)<\/body>/g;
                 let body = re.exec(payload)[1];
-                payload = payload.replace(body, body+`<script>"use strict";${skipFuncs.join('')}</script>`);
+                const injection = `
+                <script>
+                "use strict";
+                window.addEventListener("load", function replace() {
+                    if (window.document.getElementsByClassName("vjs-poster").length > 0) {
+                        ${skipFuncs.join('')}
+                    } else {
+                        window.setTimeout(replace, 1000);
+                    }
+                });
+                </script>`;
+                payload = payload.replace(body, body+injection);
             }
             filter.write(encoder.encode(payload));
             filter.disconnect();
