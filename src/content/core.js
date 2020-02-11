@@ -1354,7 +1354,7 @@ a.generic.Adfly = () => {
             let val;
             let flag = true;
             window.Object.defineProperty(window, "ysmm", {
-                configurable: false,
+                configurable: true,
                 set(value) {
                     if (flag) {
                         flag = false;
