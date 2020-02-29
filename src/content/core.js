@@ -1313,7 +1313,9 @@ a.generic.Adfly = () => {
     // License: https://github.com/adsbypasser/adsbypasser/blob/master/LICENSE
     a.inject(() => {
         "use strict";
+        const err = new window.ReferenceError("ysmm is not defined");
         const isDigit = /^\d$/;
+
         const handler = (encodedURL) => {
             if (window.document.body)
                 return;
@@ -1366,7 +1368,10 @@ a.generic.Adfly = () => {
                     val = value;
                 },
                 get() {
-                    return val;
+                    if (flag)
+                        throw err;
+                    else
+                        return val;
                 },
             });
         } catch (err) {
@@ -1419,33 +1424,38 @@ a.generic.CloudflareApps = () => {
         "use strict";
         try {
             const error = window.nanoConsole.error.bind(window.nanoConsole);
-            let needDefuse = true;
-            let installs = {};
-            window.CloudflareApps = {};
-            window.Object.defineProperty(window.CloudflareApps, "installs", {
-                configurable: false,
-                set(val) {
-                    installs = val;
+            const badApps = new window.Set([
+                "RVaR_vPwa0_9", // AdBlock Blocker
+                "ngqhM7rZolNP", // AdBlock Minus
+            ]);
+            let logged = false;
+            let value;
+            window.Object.defineProperty(window, "CloudflareApps", {
+                configurable: true,
+                set(arg) {
+                    value = arg;
                 },
                 get() {
-                    if (needDefuse && installs instanceof window.Object) {
-                        try {
-                            for (let key in installs) {
-                                if (installs[key].appId === "ngqhM7rZolNP" && installs[key].options) {
-                                    window.Object.defineProperty(installs[key], "URLPatterns", {
-                                        configurable: false,
-                                        set() { },
+                    try {
+                        if (value instanceof window.Object && value.installs instanceof window.Object) {
+                            for (const val of window.Object.values(value.installs)) {
+                                if (val instanceof window.Object && "options" in val && badApps.has(val.appId)) {
+                                    window.Object.defineProperty(val, "URLPatterns", {
+                                        configurable: true,
                                         get() {
                                             return ["$^"];
                                         },
+                                        set() { },
                                     });
-                                    needDefuse = false;
-                                    error("[Nano] Generic Solution Triggered :: Cloudflare Apps");
+                                    if (!logged) {
+                                        error("[Nano] Generic Solution Triggered :: Cloudflare Apps");
+                                        logged = true;
+                                    }
                                 }
                             }
-                        } catch (err) { }
-                    }
-                    return installs;
+                        }
+                    } catch (err) { }
+                    return value;
                 },
             });
         } catch (err) {
