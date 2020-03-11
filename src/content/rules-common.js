@@ -260,9 +260,15 @@
             // https://github.com/uBlockOrigin/uAssets/issues/6553
             "cutlinks",
         ], true)) {
-            console.log("[Nano] Excluded :: Adfly Bypasser");
+            console.log("[Nano] Excluded :: Adfly Skipper");
         } else {
             a.generic.Adfly();
+        }
+
+        if (false) {
+            console.log("[Nano] Excluded :: Adfly Forced Notification Blocker");
+        } else {
+            a.generic.AdflyForcedNotification();
         }
 
         if (false) {
@@ -325,7 +331,6 @@ if (a.domCmp([
     "flashx.to",
     "flashx.tv",
     "linx.cloud",
-    "salon.com",
     "urle.co",
     "usapoliticstoday.com",
     "vidlox.tv",
