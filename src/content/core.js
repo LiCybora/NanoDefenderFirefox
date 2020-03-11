@@ -635,6 +635,24 @@ a.noAccessExt = (chain) => {
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
+a.params = () => {
+    const url = new URL(document.location);
+    return url.searchParams;
+};
+
+a.redirectToParam = (key) => {
+    const params = a.params();
+    const href = params.get(key);
+    if (typeof href === "string") {
+        stop();
+        try {
+            location.href = href;
+        } catch (err) {
+            window.nanoConsole.error("[Nano] Failed :: Redirect To Param");
+        }
+    }
+};
+
 // Omit value to get cookie
 a.cookie = (key, val, time = 31536000000, path = "/") => {
     if (val === undefined) {
@@ -1375,7 +1393,30 @@ a.generic.Adfly = () => {
                 },
             });
         } catch (err) {
-            window.nanoConsole.error("[Nano] Failed :: Adfly Bypasser");
+            window.nanoConsole.error("[Nano] Failed :: Adfly Skipper");
+        }
+    });
+};
+
+a.generic.AdflyForcedNotification = () => {
+    // https://github.com/NanoAdblocker/NanoFilters/issues/370
+    a.ready(() => {
+        if (location.pathname === "/pushredirect/") {
+            const arrow = document.querySelector("body > div.arrow");
+            const logo = document.querySelector("body > div.logo-wrapper > img.logo");
+            if (arrow !== null && logo !== null) {
+                const params = a.params();
+                const site = params.get("site");
+                const dest = params.get("dest");
+                if (site === "adfly" && typeof dest === "string") {
+                    stop();
+                    try {
+                        location.href = dest;
+                    } catch (err) {
+                        window.nanoConsoleerror("[Nano] Failed :: Adfly Forced Notification Blocker");
+                    }
+                }
+            }
         }
     });
 };

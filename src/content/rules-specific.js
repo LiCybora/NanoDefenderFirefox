@@ -100,6 +100,29 @@ if (a.domCmp([
     a.filter("open");
 }
 
+// https://github.com/NanoAdblocker/NanoFilters/issues/370
+if (a.domCmp([
+    "news-fbe.com",
+])) {
+    a.redirectToParam("url");
+}
+
+// https://github.com/NanoAdblocker/NanoFilters/issues/370
+if (a.domCmp([
+    "ouo.today",
+])) {
+    const params = a.params();
+    const href = params.get("cr");
+    if (typeof href === "string") {
+        stop();
+        try {
+            location.href = atob(href);
+        } catch (err) {
+            window.nanoConsole.error("[Nano] Failed :: Specific Solution");
+        }
+    }
+}
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
 // Unbreak for Chromium built-in adblocker
