@@ -1413,7 +1413,7 @@ a.generic.AdflyForcedNotification = () => {
                     try {
                         location.href = dest;
                     } catch (err) {
-                        window.nanoConsoleerror("[Nano] Failed :: Adfly Forced Notification Blocker");
+                        window.nanoConsole.error("[Nano] Failed :: Adfly Forced Notification Blocker");
                     }
                 }
             }
