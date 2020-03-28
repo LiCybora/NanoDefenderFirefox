@@ -40,9 +40,14 @@ By using the Tool, you consent to:
    - If you supplied a test account in the form, that account will not be
      shared publicly (it may still be shared with a selected group of
      people)
+     - Please note that although the Author will only select people he trusts
+       to be part of the group, there is no guarantee of any sort
+     - The Author takes no responsibility for the actions of other people in
+       the group
    - You are responsible in ensuring information you entered into this form
-     is not sensitive in nature and test accounts that you supply contains
+     is not sensitive in nature and test accounts that you supplied contain
      only test data
+     - Please refrain from submitting personally identifiable information
 
 Collected data will be used to improve the Projects, as well as related
 projects such as uAssets. Collected data may be shared with a selected group of
@@ -64,7 +69,7 @@ systems in place to prevent unauthorized access:
 
 Moderated reports are stored in GitHub and/or GitLab issues trackers.
 
-Please note that although the Author is committed to keep his server secure,
+Please note that although the Author is committed in keeping his server secure,
 there is no guarantee of any sort. Like many other open source projects, the
 Tool is delivered as-is and comes with absolutely no warranty.
 
