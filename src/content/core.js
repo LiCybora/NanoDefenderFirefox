@@ -1424,26 +1424,22 @@ a.generic.AdflyForcedNotification = () => {
 a.generic.app_vars = () => {
     a.inject(() => {
         try {
-            // const _setInterval = window.setInterval;
             let _app_vars;
             window.Object.defineProperty(window, "app_vars", {
                 configurable: true,
                 set(val) {
                     _app_vars = val;
                     try {
+                        window.Object.defineProperty(_app_vars, "disable_adblock", {
+                            configurable: true,
+                            set() { },
+                            get() {
+                                return "0";
+                            },
+                        });
                         window.Object.defineProperty(_app_vars, "force_disable_adblock", {
                             configurable: true,
-                            set() {
-                                // Too many of them enforce timer on server side
-                                /*
-                                window.setInterval = (func, delay, ...args) => {
-                                    if (delay === 1000) {
-                                        delay = 50;
-                                    }
-                                    return _setInterval.call(window, func, delay, ...args);
-                                };
-                                */
-                            },
+                            set() { },
                             get() {
                                 return "0";
                             },
