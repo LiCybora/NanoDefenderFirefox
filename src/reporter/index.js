@@ -150,11 +150,15 @@ $("#send").on("click", async () => {
 
     if (category === "Other" && details.length < 10) {
         return void showMessage(
-            "Please add a quick explanation for the &quot;Other issues&quot; category that you have chosen.",
+            "Please add a quick explanation for the &quot;Other issue&quot; category that you have chosen " +
+            "(minimum 10 characters).",
         );
     }
-    if (category === "Bug" && details.length < 100)
-        return void showMessage("Please incude a detailed step-by-step reproduction guide of this issue.");
+    if (category === "Bug" && details.length < 100) {
+        return void showMessage(
+            "Please incude a detailed step-by-step reproduction guide for this issue (minimum 100 characters).",
+        );
+    }
 
     if (details.length > detailsLengthLimit) {
         return void showMessage(
