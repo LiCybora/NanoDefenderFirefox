@@ -55,7 +55,7 @@ if (a.domCmp([
     "di.fm",
     "jazzradio.com",
 ])) {
-    a.loopbackXHR((ignored, url) => {
+    a.loopbackXHR((_ignored, url) => {
         if (url.startsWith("https://pubads.g.doubleclick.net/")) {
             return [
                 '<?xml version="1.0" encoding="UTF-8"?>',
@@ -67,7 +67,6 @@ if (a.domCmp([
 }
 
 // ------------------------------------------------------------------------------------------------------------- //
-
 
 // https://github.com/NanoMeow/QuickReports/issues/352
 // https://github.com/uBlockOrigin/uAssets/issues/4290
