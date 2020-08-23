@@ -125,12 +125,16 @@
         "rmcmv.us",
         "yuukithemes.com",
 
+        // False positives from Adfly skipper
+        "programme-tv.net",
+
         // False positives from legacy BlockAdBlock defuser
         "alternativeto.net",
 
         // Other false positives
         "anandabazar.com",
         "animesync.tv",
+        "aternos.org",
         "automobile-propre.com",
         "avgle.com",
         "babbel.com",
@@ -181,6 +185,7 @@
         "wilmaa.com",
         "workday.com",
         "wp.pl",
+        "wstream.video",
 
         // Handled by a special private extension
         "boost.ink",
@@ -217,6 +222,7 @@
 
         // Other false positives
         "9anime",
+        "egybest",
         "italiashare",
         "imgdew",
         "imgfile",
