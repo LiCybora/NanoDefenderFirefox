@@ -1,0 +1,20 @@
+name: 'Lock Old Threads'
+
+on:
+  schedule:
+  - cron: '0 */6 * * *'
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+    - uses: dessant/lock-threads@v2
+      with:
+        github-token: ${{ github.token }}
+        issue-lock-inactive-days: '14'
+        issue-lock-labels: 'Archived'
+        issue-lock-reason: ''
+        pr-lock-inactive-days: '28'
+        pr-lock-labels: 'Archived'
+        pr-lock-reason: ''
