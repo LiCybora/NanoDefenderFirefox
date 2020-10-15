@@ -1,8 +1,10 @@
 # Important Announcements Regarding Recent Changes
 
-The project upstream has handovered, while at the time of this announcement, I still do not receive any words from old or new developer's stance about Firefox port. The project is temporarily considered detached from upstream until I got notified by upstream developer.
+**Important: As of v15.0.0.206, this port has NO RELATIONSHIP to upstream anymore. Any product released as Nano Defender on everywhere else other than AMO and this repository are not related to me! My account on both AMO and GitHub are LiCybora. Note that the product name is `Nano Defender for Firefox` and `Nano Defender Pro` on AMO and GitHub respectively, not `Nano Defender`!**
 
-For more information, please read important announcements from upstream here: https://github.com/NanoAdblocker/NanoCore/issues/362
+The project is now 100% independent as upstream is archived. Any other product named Nano Defender has no relationship to me.
+
+For more information, please read [my thread](https://github.com/LiCybora/NanoDefenderFirefox/issues/187) and announcements from upstream [here](https://github.com/NanoAdblocker/NanoCore/issues/362)
 
 # Nano Defender for Firefox
 
@@ -12,7 +14,9 @@ An anti-adblock defuser for Nano Adblocker and uBlock Origin on Firefox
 
 ## About Firefox port
 
-The source code of this project is shared from [upstream](https://github.com/jspenguin2017/uBlockProtector).
+<del>The source code of this project is shared from [upstream](https://github.com/jspenguin2017/uBlockProtector).</del>
+
+As of v15.0.0.206, Nano Defender for Firefox is independent from any entites or people. Note that the product name is `Nano Defender for Firefox` and `Nano Defender Pro` on AMO and GitHub respectively, not `Nano Defender`!
 
 For issues other than filter issues found on Firefox port, it is recommended to report [here](https://github.com/LiCybora/NanoDefenderFirefox/issues).
 
