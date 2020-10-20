@@ -28,7 +28,7 @@ You may disable console log for this browser session in the popup (see the first
 
 ## Installation
 
-Nano Defender can only protect either [Nano Adblocker](https://github.com/LiCybora/NanoCoreFirefox) or [uBlock Origin](https://github.com/gorhill/ublock), and will prioritize Nano Adblocker.
+Nano Defender can only protect <del>either [Nano Adblocker](https://github.com/LiCybora/NanoCoreFirefox) or</del> [uBlock Origin](https://github.com/gorhill/ublock)<del>, and will prioritize Nano Adblocker.</del> As of 17 Oct 2020, Nano Adblocker is no more.
 
 ### [Get Nano Defender Pro (for Waterfox/Firefox 55 or above)](https://github.com/LiCybora/NanoDefenderFirefox/releases/)
 
