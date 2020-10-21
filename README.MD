@@ -40,6 +40,8 @@ The 'Pro' version will strictly follow the Pro version in upstream, while the 'f
 
 Note: If you are using uBlock Origin, there are a few [extra installation steps](https://jspenguin2017.github.io/uBlockProtector/#extra-installation-steps-for-ublock-origin) to follow.
 
+As of uBO 1.30.0, Adblock Warning Removal List is bad listed by uBlock Origin and cannot be added. Just skip it for now. I will remove that instruction once I clone all required resources from upstream and host on my own. 
+
 ### About Pre-quantum fork
 
 ONLY Waterfox 55 or above, or forks with equivalent gecko version and supporting WebExtension API can install the 'Pro' version.
